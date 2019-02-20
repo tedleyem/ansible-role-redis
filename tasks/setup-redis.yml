@@ -1,0 +1,52 @@
+---
+#- name:  Install Redis 5.0.2
+#  yum:
+#    name: "http://download.redis.io/releases/redis-5.0.2.tar.gz"
+#    state: latest
+
+- name:  Install Redis 4.0.11
+  yum:
+    name: "https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64//redis40u-4.0.11-1.ius.centos7.x86_64.rpm"
+    state: latest
+
+- name:  Install Redis Stable
+  yum:
+    name: "http://download.redis.io/releases/redis-stable.tar.gz"
+    state: latest
+
+
+- name: Copy Redis conf
+  copy:
+    src: "{{ playbook_dir }}/templates/{{ env }}/redis.conf"
+    dest: "/etc/redis/redis.conf"
+    remote_src: no
+    owner: root
+
+- name: Copy Sentinel Conf
+  copy:
+  copy:
+    src: "{{ playbook_dir }}/templates/{{ env }}/sentinel.conf"
+    dest: "/etc/redis/sentinel.conf"
+    remote_src: no
+    owner: root
+
+- name: create redis run dir
+  file:
+    path=/var/run/redis
+    state=directory
+    group=root
+    owner=root
+
+- name: create redis-stage run dir
+  file:
+    path=/var/run/redis-stage
+    state=directory
+    group=root
+    owner=root
+
+- name: create redis-uat run dir
+  file:
+    path=/var/run/redis-uat
+    state=directory
+    group=root
+    owner=root

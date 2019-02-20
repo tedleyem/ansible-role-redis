@@ -1,0 +1,7 @@
+- hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+    - import_tasks: "{{ playbook_dir }}/tasks/setup-redis.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/systemd-setup.yml"
