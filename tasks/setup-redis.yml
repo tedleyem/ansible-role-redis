@@ -1,18 +1,29 @@
 ---
-#- name:  Install Redis 5.0.2
-#  yum:
-#    name: "http://download.redis.io/releases/redis-5.0.2.tar.gz"
-#    state: latest
+- name: Download and Install Redis {{ redis-version }}
+  unarchive:
+    src: "{{ redis-url }}"
+    dest: "{{ install_dir }}"
+    remote_src: yes
 
-- name:  Install Redis 4.0.11
-  yum:
-    name: "https://dl.iuscommunity.org/pub/ius/stable/CentOS/7/x86_64//redis40u-4.0.11-1.ius.centos7.x86_64.rpm"
-    state: latest
+- name: Install {{ redis_version }}
+  command: "sudo sh configure --prefix={{ redis_dir }}/"
+  args:
+    chdir: "{{ install_dir }}"
+  register: config_mem
 
-- name:  Install Redis Stable
-  yum:
-    name: "http://download.redis.io/releases/redis-stable.tar.gz"
-    state: latest
+- name: sudo make
+  command: "sudo make"
+  args:
+    chdir: "{{ install_dir }}"
+  register: config_mem
+
+- name: sudo make install
+  command: "sudo make install"
+  args:
+    chdir: "{{ install_dir }}"
+  register: config_mem
+
+- debug: msg="{{ config_mem.stdout }}"
 
 
 - name: Copy Redis conf
@@ -32,7 +43,7 @@
 
 - name: create redis run dir
   file:
-    path=/var/run/redis
-    state=directory
-    group=root
-    owner=root
+    path: /var/run/redis
+    state: directory
+    group: root
+    owner: root

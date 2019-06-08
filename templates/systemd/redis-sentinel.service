@@ -1,5 +1,5 @@
 [Unit]
-Description=Redis In-Memory Data Store
+Description=Redis-Sentinel Monitor for Redis
 After=network.target
 
 [Service]

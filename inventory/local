@@ -1,0 +1,4 @@
+[redis]
+dolly01 ansible_connection=docker env=master
+dolly02 ansible_connection=docker env=slave
+dolly03 ansible_connection=docker env=sentinel

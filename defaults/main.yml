@@ -1,7 +1,11 @@
 ---
+redis_url: "http://download.redis.io/releases/redis-{{ redis-version }}.tar.gz"
+redis-version: "5.0.5"
+redis_dir: "/opt/{{ redis_version }}"
+install_dir: "/opt/"
+
 # Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
 redis_enablerepo: epel
-redis_url: ""
 redis_port: 6380
 redis_bind_interface: 127.0.0.1
 #redis_unixsocket: ''
