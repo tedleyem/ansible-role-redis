@@ -1,40 +1,31 @@
 ---
 # Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
 redis_enablerepo: epel
-
+redis_url: ""
 redis_port: 6380
-redis_bind_interface: 127.0.0.1 $inventory_hostname
-redis_unixsocket: ''
+redis_bind_interface: 127.0.0.1
+#redis_unixsocket: ''
 redis_timeout: 300
-
 redis_loglevel: "notice"
 redis_logfile: /var/log/redis/redis-server.log
-
 redis_databases: 16
-
 # Set to an empty set to disable persistence (saving the DB to disk).
 redis_save:
   - 900 1
   - 300 10
   - 60 10000
-
 redis_rdbcompression: "yes"
 redis_dbfilename: dump.rdb
 redis_dbdir: /var/lib/redis
-
 redis_maxmemory: 0
 redis_maxmemory_policy: "noeviction"
 redis_maxmemory_samples: 5
-
 redis_appendonly: "no"
 redis_appendfsync: "everysec"
-
 # Add extra include files for local configuration/overrides.
 redis_includes: []
-
 # Require authentication to Redis with a password.
 redis_requirepass: "password123"
-
 # Disable certain Redis commands for security reasons.
 redis_disabled_commands: []
 #  - FLUSHDB
@@ -52,13 +43,58 @@ redis_disabled_commands: []
 #  - RENAME
 #  - DEBUG
 
+slave_serve_stale_data: "yes"
+slave_read_only: "yes"
+repl_diskless_sync: "no"
+repl_diskless_sync_delay: "5"
+repl_disable_tcp_nodelay: "no"
+slave_priority: "100"
+lazyfree_lazy_eviction: "no"
+lazyfree_lazy_expire: "no"
+lazyfree_lazy_server_del: "no"
+slave_lazy_flush: "no"
+appendonly: "no"
+appendfilename: "appendonly.aof"
+appendfsync1: always
+appendfsync2: ""
+appendfsync3: ""
+no_appendfsync_on_rewrite: "no"
+auto_aof_rewrite_percentage: "100"
+auto_aof_rewrite_min_size: "64mb"
+aof_load_truncated: "yes"
+aof_use_rdb_preamble: "no"
+lua_time_limit: "5000"
+slowlog_log_slower_than: "10000"
+slowlog_max_len: "128"
+latency_monitor_threshold: "0"
+notify_keyspace_events: ""
+hash_max_ziplist_entries: "512"
+hash_max_ziplist_value: "64"
+list_max_ziplist_size: "_2"
+list_compress_depth: "0"
+set_max_intset_entries: "512"
+zset_max_ziplist_entries: "128"
+zset_max_ziplist_value: "64"
+hll_sparse_max_bytes: "3000"
+activerehashing: "yes"
+client_output_buffer_limit1: "normal 0 0 0"
+client_output_buffer_limit2: "slave 256mb 64mb 60"
+client_output_buffer_limit3: "pubsub 32mb 8mb 60"
+hz: "10"
+aof_rewrite_incremental_fsync: "yes"
+redis_slave: ""
+
+
 # Sentinel Conf settings
 # Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
 sentinel_port: 6380
-sentinel_bind_interface: 127.0.0.1 $inventory_hostname
+sentinel_bind_loop: 127.0.0.1
+sentinel_bind_ip: $inventory_hostname
 sentinel_timeout: 300
 sentinel_loglevel: "notice"
+sentinel_pid: "/var/run/redis-sentinel.pid"
 sentinel_logfile: /var/log/redis/redis-server.log
+protected_mode: "yes"
 
 # Require authentication to Redis with a password.
 sentinel_requirepass: "password123"

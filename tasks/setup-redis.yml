@@ -36,17 +36,3 @@
     state=directory
     group=root
     owner=root
-
-- name: create redis-stage run dir
-  file:
-    path=/var/run/redis-stage
-    state=directory
-    group=root
-    owner=root
-
-- name: create redis-uat run dir
-  file:
-    path=/var/run/redis-uat
-    state=directory
-    group=root
-    owner=root
