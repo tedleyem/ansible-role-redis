@@ -1,0 +1,19 @@
+---
+dependencies: []
+
+galaxy_info:
+  role_name: redis-sentinel-high-availability
+  author: tmeralus
+  description: Redis In-Store Memory caching HA cluster setup
+  issue_tracker_url: https://github.com/tmeralus/ansible-role-redis-sentinel-HA/issues
+  company: ""
+  license: "license (GPLv3, )"
+  min_ansible_version: 2.5.4
+  platforms:
+    - name: EL
+      versions:
+        - all
+  galaxy_tags:
+    - redis
+    - caching
+    
