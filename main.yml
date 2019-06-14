@@ -6,7 +6,12 @@
     # Include variables and define needed variables.
     - name: Include OS-specific variables.
       include_vars: "{{ ansible_os_family }}.yml"
+    - name: Include OS-specific variables.
+      include_vars: "{{ playbook_dir }}/vars/main.yml"
     - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-    - import_tasks: "{{ playbook_dir }}/tasks/setup-redis.yml"
-    - import_tasks: "{{ playbook_dir }}/tasks/systemd-setup.yml"
-    
+
+    - import_tasks: "{{ playbook_dir }}/tasks/0.setup_requirements.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/1.install.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/2.copy.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/3.firewall.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/4.start.yml"

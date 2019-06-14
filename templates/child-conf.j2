@@ -1,7 +1,7 @@
 daemonize yes
 pidfile /var/run/redis/{{ redis_daemon }}.pid
-port {{ redis_port }}
-bind {{ redis_bind_interface }}
+port {{ redis_child_port }}
+bind {{ redis_bind_loop }} {{ redis_child_interface }}
 {% if redis_unixsocket %}
 unixsocket {{ redis_unixsocket }}
 {% endif %}
@@ -90,6 +90,8 @@ client-output-buffer-limit: "{{ client_output_buffer_limit3 }}"
 hz: "{{hz}}"
 aof-rewrite-incremental-fsync: "{{ aof_rewrite_incremental_fsync }}"
 
-{% if redis_slave %}
-slaveof {{ redis_bind_interface }} {{ redis_port }}
+{% for host in groups["redis"] %}
+{% if hostvars[host]["redis-tag"] == parent %}
+replicaof {{ redis_bind_loop }} {{ redis_parent_port }}
 {% endif %}
+{% endfor %}

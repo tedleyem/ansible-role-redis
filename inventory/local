@@ -1,4 +1,29 @@
+[all:vars]
+log_base_path=/tmp
+test_environment=true
+
+#--Networking----------------
+localhost ansible_connection=local
+
+[net-docks]
+dolly[01:03] image="tmeralus/ansible-node" ansible_connection=docker
+dolly[04:06] image="tmeralus/ubuntu-node" ansible_connection=docker
+
+[nagios]
+dolly01
+dolly
+
+[memcache]
+dolly01
+dolly02
+
+[redis-ha:children]
+redis
+sentinel
+
 [redis]
-dolly01 ansible_connection=docker env=master
-dolly02 ansible_connection=docker env=slave
-dolly03 ansible_connection=docker env=sentinel
+dolly01 redis-tag=master
+dolly02 redis-tag=slave
+
+[sentinel]
+dolly03 redis-tag=sentinel

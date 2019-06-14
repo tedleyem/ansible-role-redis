@@ -1,0 +1,34 @@
+---
+ #COPY PORT 1 FILES
+- name: Copy redis Parent conf
+  template:
+    src: parent-conf.j2
+    dest: "/etc/redis/redis.conf"
+  when: "inventory_hostname in groups['redis'] and redis-tag=master"
+
+- name: Copy Redis Child conf
+  template:
+    src: child-conf.j2
+    dest: "/etc/redis/redis.conf"
+  when: "inventory_hostname in groups['redis'] and redis-tag=child"
+
+ #COPY PORT 2 FILES
+- name: Copy Redis Sentinel Parent conf
+  template:
+    src: sentinel-parent.j2
+    dest: "/etc/redis/sentinel.conf"
+  when: "inventory_hostname in groups['redis'] and redis-tag=master"
+
+ #COPY PORT 2 FILES
+- name: Copy Redis Sentinel Child conf
+  template:
+    src: sentinel-parent.j2
+    dest: "/etc/redis/sentinel.conf"
+  when: "inventory_hostname in groups['redis'] and redis-tag=child"
+
+ #COPY PORT 2 FILES
+- name: Copy Redis Sentinel ISO conf
+  template:
+    src: sentinel-parent.j2
+    dest: "/etc/redis/sentinel.conf"
+  when: "inventory_hostname in groups['sentinel'] and redis-tag=iso"

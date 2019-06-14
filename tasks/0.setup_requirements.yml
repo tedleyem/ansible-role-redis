@@ -1,0 +1,17 @@
+---
+- name: Gather facts
+  setup:
+
+- name: Install dependancies
+  package:
+    name: [cmake,]
+    state: latest
+  register: memcached_install
+  when: ansible_os_family == "RedHat"
+
+#Define these variables with ansible ip addresses 
+# {{ redis_parent_interface }}
+# {{ redis_child_interface }}
+# {{ sentinel_parent_interface }}
+# {{ sentinel_child_interface }}
+# {{ sentinel_iso_interface }}
