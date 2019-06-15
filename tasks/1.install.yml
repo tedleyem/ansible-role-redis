@@ -1,14 +1,14 @@
 ---
-- name: Download Redis {{ redis_version }}
-  get_url:
-    url: "{{ redis-url }}"
-    dest: "{{ install_dir }}"
-
-#- name: Download and Extract Redis {{ redis_version }}
-#  unarchive:
-#    src: "{{ redis_url }}"
+#- name: Download Redis {{ redis_version }}
+#  get_url:
+#    url: "{{ redis_url }}"
 #    dest: "{{ install_dir }}"
-#    remote_src: yes
+
+- name: Download and Extract Redis {{ redis_version }}
+  unarchive:
+    src: "{{ redis_url }}"
+    dest: "{{ install_dir }}"
+    remote_src: yes
 
 - name: create redis run dir
   file:
