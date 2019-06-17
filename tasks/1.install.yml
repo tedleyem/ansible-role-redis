@@ -1,4 +1,12 @@
 ---
+<<<<<<< HEAD
+=======
+#- name: Download Redis {{ redis_version }}
+#  get_url:
+#    url: "{{ redis_url }}"
+#    dest: "{{ install_dir }}"
+
+>>>>>>> 5abf557ed7b3a618225e64d7e055bf81d5d199f3
 - name: Download and Extract Redis {{ redis_version }}
   unarchive:
     src: "{{ redis_url }}"

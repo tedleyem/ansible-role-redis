@@ -6,7 +6,11 @@
     # Include variables and define needed variables.
     - name: Include OS-specific variables.
       include_vars: "{{ ansible_os_family }}.yml"
+<<<<<<< HEAD
     - name: Include Main variables.
+=======
+    - name: Include default variables.
+>>>>>>> 5abf557ed7b3a618225e64d7e055bf81d5d199f3
       include_vars: "{{ playbook_dir }}/vars/main.yml"
     - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
     - import_tasks: "{{ playbook_dir }}/tasks/setup_requirements.yml"
