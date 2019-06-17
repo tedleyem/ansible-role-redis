@@ -1,52 +1,22 @@
 ---
-redis_url: "http://download.redis.io/releases/redis-{{ redis-version }}.tar.gz"
 redis_version: "5.0.5"
-redis_dir: "/opt/{{ redis_version }}"
+redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
+redis_dir: "/opt/redis-{{ redis_version }}"
 install_dir: "/opt/"
 
-__redis_package: redis
 redis_daemon: redis
 redis_conf_path: /etc/redis.conf
-
 redis_bind_loop: 127.0.0.1
-#redis_parent_interface:
-#redis_child_interface:
-#sentinel_parent_interface:
-#sentinel_child_interface:
-#sentinel_iso_interface:
-redis_port: 6379
 redis_node_name: redis-node-master
-
-# Sentinel Conf settings
-sentinel_port: 26379
-sentinel_bind_loop: 127.0.0.1
-sentinel_bind_ip: $inventory_hostname
-sentinel_timeout: 300
-sentinel_loglevel: "notice"
-sentinel_pid: "/var/run/redis-sentinel.pid"
-sentinel_logfile: /var/log/redis/redis-server.log
-protected_mode: "yes"
-supervised_mode: yes
-sentinel_dir: "/var/lib/redis"
-sentinel_requirepass: "password123"
-sentinel_quorum: 2
-sentinel_deny_scripts_reconfig: yes
-sentinel_down_ms: 6000
-sentinel_failtime: 8000
-sentinel_auth-pass: p@ssword1
-
-
-
 # Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
 redis_enablerepo: epel
 redis_port: 6380
 redis_bind_interface: 127.0.0.1
-#redis_unixsocket: ''
+redis_unixsocket: ''
 redis_timeout: 300
 redis_loglevel: "notice"
 redis_logfile: /var/log/redis/redis-server.log
 redis_databases: 16
-# Set to an empty set to disable persistence (saving the DB to disk).
 redis_save:
   - 900 1
   - 300 10
@@ -63,6 +33,8 @@ redis_appendfsync: "everysec"
 redis_includes: []
 # Require authentication to Redis with a password.
 redis_requirepass: "password123"
+
+
 # Disable certain Redis commands for security reasons.
 redis_disabled_commands: []
 #  - FLUSHDB

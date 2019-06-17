@@ -1,14 +1,9 @@
 ---
-- name: Download Redis {{ redis_version }}
-  get_url:
-    url: "{{ redis-url }}"
+- name: Download and Extract Redis {{ redis_version }}
+  unarchive:
+    src: "{{ redis_url }}"
     dest: "{{ install_dir }}"
-
-#- name: Download and Extract Redis {{ redis_version }}
-#  unarchive:
-#    src: "{{ redis_url }}"
-#    dest: "{{ install_dir }}"
-#    remote_src: yes
+    remote_src: yes
 
 - name: create redis run dir
   file:
@@ -17,7 +12,14 @@
     group: root
     owner: root
 
-- name: sudo make
-  command: "sudo make"
+- name: sudo make test
+  command: "make test"
+  become: yes
   args:
-    chdir: "{{ redis_dir }}"
+    chdir: "{{ redis_dir }}/src/"
+
+- name: sudo make install
+  command: "make"
+  become: yes
+  args:
+    chdir: "{{ redis_dir }}/src/"

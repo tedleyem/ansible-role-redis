@@ -21,3 +21,25 @@
     dest: "/etc/redis/sentinel.conf"
   when: "inventory_hostname in groups['sentinel'] or inventory_hostname in groups['redis']"
 #  when: "inventory_hostname in groups['redis-ha'] and redis_cluster=child"
+
+ #COPY PORT 2 FILES
+#- name: Copy Redis-Sentinel Parent conf
+#  template:
+#    src: sentinel-parent.j2
+#    dest: "/etc/redis/sentinel.conf"
+#  when: "inventory_hostname in groups['redis']"
+
+ #COPY PORT 2 FILES
+#- name: Copy Redis-Sentinel Child conf
+#  template:
+#    src: sentinel-parent.j2
+#    dest: "/etc/redis/sentinel.conf"
+#  when: "inventory_hostname in groups['sentinel']"
+#  when: "inventory_hostname in groups['redis-ha'] and redis_cluster=child"
+
+ #COPY PORT 2 FILES
+#- name: Copy Redis Sentinel ISO conf
+#  template:
+#    src: sentinel-parent.j2
+#    dest: "/etc/redis/sentinel.conf"
+#  when: "inventory_hostname in groups['sentinel'] and redis_cluster=iso"

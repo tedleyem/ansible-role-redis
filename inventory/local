@@ -22,8 +22,8 @@ redis
 sentinel
 
 [redis]
-dolly01 redis-tag=master
-dolly02 redis-tag=slave
+dolly redis_cluster=parent
+dolly2 redis_cluster=child
 
 [sentinel]
-dolly03 redis-tag=sentinel
+dolly3 redis_cluster=sentinel
