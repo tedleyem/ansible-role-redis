@@ -54,6 +54,12 @@ requirepass {{ redis_requirepass }}
 rename-command {{ redis_disabled_command }} ""
 {% endfor %}
 
-{% if redis_slave_ip %}
-replicaof {{ redis_requirepass }} {{ redis_port }}
+#{% if redis_slave_ip %}
+#replicaof {{ redis_bind_loop }} {{ redis_port }}
+#{% endif %}
+
+{% for host in groups["redis"] %}
+{% if hostvars[host]["redis_cluster"] == child %}
+replicaof {{ redis_bind_loop }} {{ redis_port }}
 {% endif %}
+{% endfor %}

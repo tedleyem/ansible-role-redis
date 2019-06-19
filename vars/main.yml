@@ -6,12 +6,9 @@ install_dir: "/opt/"
 
 redis_daemon: redis
 redis_conf_path: /etc/redis.conf
-redis_bind_loop: 127.0.0.1
 redis_node_name: redis-node-master
 # Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
 redis_enablerepo: epel
-redis_port: 6380
-redis_bind_interface: 127.0.0.1
 redis_unixsocket: ''
 redis_package: redis
 redis_daemon: redis
@@ -29,8 +26,6 @@ redis_node_name: redis-node-master
 #sentinel_child_interface:
 #sentinel_iso_interface:
 
-
->>>>>>> 5abf557ed7b3a618225e64d7e055bf81d5d199f3
 redis_timeout: 300
 redis_loglevel: "notice"
 redis_logfile: /var/log/redis/redis-server.log

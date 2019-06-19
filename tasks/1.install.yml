@@ -1,12 +1,4 @@
 ---
-<<<<<<< HEAD
-=======
-#- name: Download Redis {{ redis_version }}
-#  get_url:
-#    url: "{{ redis_url }}"
-#    dest: "{{ install_dir }}"
-
->>>>>>> 5abf557ed7b3a618225e64d7e055bf81d5d199f3
 - name: Download and Extract Redis {{ redis_version }}
   unarchive:
     src: "{{ redis_url }}"
@@ -21,13 +13,15 @@
     owner: root
 
 - name: sudo make test
-  command: "make test"
-  become: yes
+  command: "sudo make test"
+#  become: yes
   args:
     chdir: "{{ redis_dir }}/src/"
+  register: install_test
 
 - name: sudo make install
   command: "make"
   become: yes
   args:
     chdir: "{{ redis_dir }}/src/"
+  when: install_test is succeeded

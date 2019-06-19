@@ -1,4 +1,10 @@
 ---
+- debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+  register: redis_parent_ip
+
+- debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
+  register: redis_child_ip
+  
  #COPY PORT 1 FILES
 - name: Copy redis Parent conf
   template:
@@ -21,3 +27,19 @@
     dest: "/etc/redis/sentinel.conf"
   when: "inventory_hostname in groups['sentinel'] or inventory_hostname in groups['redis']"
 #  when: "inventory_hostname in groups['redis-ha'] and redis_cluster=child"
+
+#alternative method to copying files in redis setup
+- name: Copy Redis conf
+  copy:
+    src: "{{ playbook_dir }}/templates/{{ env }}/redis.conf"
+    dest: "/etc/redis/redis.conf"
+    remote_src: no
+    owner: root
+
+- name: Copy Sentinel Conf
+  copy:
+  copy:
+    src: "{{ playbook_dir }}/templates/{{ env }}/sentinel.conf"
+    dest: "/etc/redis/sentinel.conf"
+    remote_src: no
+    owner: root
