@@ -58,8 +58,12 @@ rename-command {{ redis_disabled_command }} ""
 #replicaof {{ redis_bind_loop }} {{ redis_port }}
 #{% endif %}
 
-{% for host in groups["redis"] %}
-{% if hostvars[host]["redis_cluster"] == child %}
-replicaof {{ redis_bind_loop }} {{ redis_port }}
+{% if redis_role == 'slave' %}
+slaveof {{ redis_master }} {{ hostvars[redis_master]['redis_port'] }}
 {% endif %}
-{% endfor %}
+
+#{% for host in groups["redis"] %}
+#{% if hostvars[host]["redis_cluster"] == child %}
+#replicaof {{ redis_bind_loop }} {{ redis_port }}
+#{% endif %}
+#{% endfor %}

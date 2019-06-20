@@ -4,21 +4,11 @@
   become_method: sudo
   tasks:
     # Include variables and define needed variables.
-    - name: Include OS-specific variables.
-      include_vars: "{{ ansible_os_family }}.yml"
-    - name: Include Main variables.
-      include_vars: "{{ playbook_dir }}/vars/main.yml"
-    - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-      register: redis_parent_ip
+    - name: Include vars
+      include_vars:
+        file: group_vars/all.yml
     - import_tasks: "{{ playbook_dir }}/tasks/setup_requirements.yml"
 #    - import_tasks: "{{ playbook_dir }}/tasks/1.install.yml"
-    - import_tasks: "{{ playbook_dir }}/tasks/2.copy.yml"
+#    - import_tasks: "{{ playbook_dir }}/tasks/2.copy.yml"
 #    - import_tasks: "{{ playbook_dir }}/tasks/3.firewall.yml"
 #    - import_tasks: "{{ playbook_dir }}/tasks/4.start.yml"
-
-#Define these variables with ansible ip addresses
-# {{ redis_parent_interface }}
-# {{ redis_child_interface }}
-# {{ sentinel_parent_interface }}
-# {{ sentinel_child_interface }}
-# {{ sentinel_iso_interface }}
