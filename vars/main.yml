@@ -20,10 +20,10 @@ redis_bind_loop: 127.0.0.1
 redis_bind_interface: 127.0.0.1
 redis_node_name: redis-node-master
 #redis_unixsocket: ''
-#redis_parent_interface:
-#redis_child_interface:
-#sentinel_parent_interface:
-#sentinel_child_interface:
+#redis_master_interface:
+#redis_slave_interface:
+#sentinel_master_interface:
+#sentinel_slave_interface:
 #sentinel_iso_interface:
 
 redis_timeout: 300

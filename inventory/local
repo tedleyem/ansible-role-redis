@@ -17,13 +17,13 @@ dolly
 dolly01
 dolly02
 
-[redis-ha:children]
+[redis-ha:slaveren]
 redis
 sentinel
 
 [redis]
-dolly redis_cluster=parent
-dolly2 redis_cluster=child
+dolly redis-role=master
+dolly2 redis-role=slave
 
 
 [redis-nodes]
@@ -31,9 +31,9 @@ dolly redis-role=master
 dolly2 redis-role=slave
 dolly3 redis-role=sentinel
 
-#dolly redis_cluster=parent redis-role=master redis-role=sentinel
-#dolly2 redis_cluster=child redis-role=slave redis-role=sentinel
-#dolly3 redis_cluster=sentinel redis-role=sentinel
+#dolly redis-role=master redis-role=master redis-role=sentinel
+#dolly2 redis-role=slave redis-role=slave redis-role=sentinel
+#dolly3 redis-role=sentinel redis-role=sentinel
 
 [sentinel]
-dolly3 redis_cluster=sentinel
+dolly3 redis-role=sentinel

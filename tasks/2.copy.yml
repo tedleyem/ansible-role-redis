@@ -1,32 +1,32 @@
 ---
 - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-  register: redis_parent_ip
+  register: redis_master_ip
 
 - debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-  register: redis_child_ip
+  register: redis_slave_ip
   
  #COPY PORT 1 FILES
-- name: Copy redis Parent conf
+- name: Copy redis master conf
   template:
-    src: parent-conf.j2
+    src: master-conf.j2
     dest: "/etc/redis/redis.conf"
   when: "inventory_hostname in groups['redis']"
-#  when: "inventory_hostname in groups['redis'] and redis_cluster == parent"
+#  when: "inventory_hostname in groups['redis'] and redis-role == master"
 
-- name: Copy Redis Child conf
+- name: Copy Redis slave conf
   template:
-    src: child-conf.j2
+    src: slave-conf.j2
     dest: "/etc/redis/redis.conf"
   when: "inventory_hostname in groups['redis']"
-#  when: "inventory_hostname in groups['redis'] and redis_cluster == child"
+#  when: "inventory_hostname in groups['redis'] and redis-role == slave"
 
  #COPY PORT 2 FILES
-- name: Copy Redis-Sentinel Child conf
+- name: Copy Redis-Sentinel slave conf
   template:
     src: sentinel.j2
     dest: "/etc/redis/sentinel.conf"
   when: "inventory_hostname in groups['sentinel'] or inventory_hostname in groups['redis']"
-#  when: "inventory_hostname in groups['redis-ha'] and redis_cluster=child"
+#  when: "inventory_hostname in groups['redis-ha'] and redis-role=slave"
 
 #alternative method to copying files in redis setup
 - name: Copy Redis conf

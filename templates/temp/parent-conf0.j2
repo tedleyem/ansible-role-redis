@@ -1,7 +1,7 @@
 daemonize yes
 pidfile /var/run/redis/{{ redis_daemon }}.pid
-port {{ redis_parent_port }}
-bind {{ redis_bind_loop }} {{ redis_parent_interface }}
+port {{ redis_master_port }}
+bind {{ redis_bind_loop }} {{ redis_master_interface }}
 {% if redis_unixsocket %}
 unixsocket {{ redis_unixsocket }}
 {% endif %}
@@ -91,7 +91,7 @@ hz: "{{hz}}"
 aof-rewrite-incremental-fsync: "{{ aof_rewrite_incremental_fsync }}"
 
 {% for host in groups["redis"] %}
-{% if hostvars[host]["redis-tag"] == parent %}
+{% if hostvars[host]["redis-tag"] == master %}
 #replicaof 172.16.31.21 6379
 {% endif %}
 {% endfor %}

@@ -63,7 +63,7 @@ slaveof {{ redis_master }} {{ hostvars[redis_master]['redis_port'] }}
 {% endif %}
 
 #{% for host in groups["redis"] %}
-#{% if hostvars[host]["redis_cluster"] == child %}
+#{% if hostvars[host]["redis-role"] == slave %}
 #replicaof {{ redis_bind_loop }} {{ redis_port }}
 #{% endif %}
 #{% endfor %}
