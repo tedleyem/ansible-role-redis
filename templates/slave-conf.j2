@@ -54,16 +54,15 @@ requirepass {{ redis_requirepass }}
 rename-command {{ redis_disabled_command }} ""
 {% endfor %}
 
-#{% if redis_slave_ip %}
-#replicaof {{ redis_bind_loop }} {{ redis_port }}
-#{% endif %}
-
-{% if redis_role == 'slave' %}
-slaveof {{ redis_master }} {{ hostvars[redis_master]['redis_port'] }}
-{% endif %}
 
 #{% for host in groups["redis"] %}
 #{% if hostvars[host]["redis-role"] == slave %}
-#replicaof {{ redis_bind_loop }} {{ redis_port }}
+replicaof {{ redis_bind_loop }} {{ redis_port }}
 #{% endif %}
 #{% endfor %}
+
+{% for host in groups['redis-nodes'] %}
+  {% if hostvars[host]['redis-role'] == 'master' %}
+replicaof {{ hostvars[host]['ansible_default_ipv4']['address'] }} {{ redis_port }}
+  {% endif %}
+{% endfor %}

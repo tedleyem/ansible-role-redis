@@ -1,27 +1,6 @@
 ---
-- name: Download and Extract Redis {{ redis_version }}
-  unarchive:
-    src: "{{ redis_url }}"
-    dest: "{{ install_dir }}"
-    remote_src: yes
-
-- name: create redis run dir
-  file:
-    path: /var/run/redis
-    state: directory
-    group: root
-    owner: root
-
-- name: sudo make test
-  command: "sudo make test"
-#  become: yes
-  args:
-    chdir: "{{ redis_dir }}/src/"
-  register: install_test
-
-- name: sudo make install
-  command: "make"
-  become: yes
-  args:
-    chdir: "{{ redis_dir }}/src/"
-  when: install_test is succeeded
+- name: Install Redis
+  yum:
+    name: redis
+    state: present
+  become: true
