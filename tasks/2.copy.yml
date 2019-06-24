@@ -11,6 +11,7 @@
     src: master-conf.j2
     dest: "/etc/redis/redis.conf"
   when: "redis-role == 'master'"
+  when: "{{ hostvars['redis-role'].master }}"
 #  when: "redis_masters is defined and redis-role == 'master"
   become: true
 
