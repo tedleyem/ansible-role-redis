@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: redis-nodes
   become: yes
   become_user: root
   become_method: sudo
