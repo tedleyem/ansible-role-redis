@@ -1,5 +1,4 @@
 ---
-
 - name: build list of Redis Masters
   vars:
     data_yaml: |
@@ -51,10 +50,14 @@
   with_items:
     - "{{ redis_config_dir }}"
     - "{{ redis_run_dir }}"
-    - "{{ redis_logfile }}"
+  become: true
 
 - name: Create Redis LOG DIR
   file:
-   path: "{{ redis_logfile }}"
+   path: "{{item}}"
    state: touch
-   mode: 0644
+   mode: 0755
+  with_items:
+    - "{{ redis_logfile }}"
+    - "{{ sentinel_logfile }}"
+  become: true
