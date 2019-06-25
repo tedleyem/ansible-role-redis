@@ -61,3 +61,13 @@
     - "{{ redis_logfile }}"
     - "{{ sentinel_logfile }}"
   become: true
+
+# Fix overcommit_memory warnings
+- name: overcommit_memory warnings Fix
+  command: "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf"
+  become: true
+
+# Fix for  Transparent Huge Pages (THP) support in kernet
+- name: Transparent Huge Pages Fix
+  command: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
+  become: true

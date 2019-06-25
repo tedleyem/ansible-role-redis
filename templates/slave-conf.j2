@@ -47,6 +47,6 @@ rename-command {{ redis_disabled_command }} ""
 {% endfor %}
 {% for host in groups['redis-nodes'] %}
 {% if hostvars[host]['redis_role'] == 'slave' %}
-replicaof = {{redis_masters}}
+replicaof {{redis_masters}}
 {% endif %}
 {% endfor %}

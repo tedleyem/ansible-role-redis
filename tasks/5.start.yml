@@ -12,13 +12,12 @@
 
 # checking output of previous command
 - name: Check Redis Connection
-  command: "redis-cli -p {{ redis_port }} ping"
+  command: "redis-cli -a {{ redis_requirepass }} -p {{ redis_port }} ping"
   register: check_redis
 - debug: msg="{{ check_redis.stdout }}"
 
 # checking output of previous command
-#- name: Check Redis Connection
-#  command: redis-cli -p {{ sentinel_port }} ping
-#  register: check_sentinel
-#
-#- debug: msg="{{ check_sentinel.stdout }}"
+#- name: Check Sentinel Connection
+#  command: "redis-cli -a {{ redis_requirepass }} -p {{ redis_port }} ping"
+#  register: check_redis
+#- debug: msg="{{ check_redis.stdout }}"

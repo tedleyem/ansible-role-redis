@@ -12,6 +12,12 @@
     remote_src: yes
   become: true
 
+- name: run make test
+  command: "sudo make test"
+  become: true
+  args:
+    chdir: "{{ redis_dir }}"
+
 - name: copy redis-server to /usr/local/bin/
   copy:
     src: "{{ redis_dir }}/src/redis-server"
