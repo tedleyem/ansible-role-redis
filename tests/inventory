@@ -1,2 +1,6 @@
 localhost
 
+[redis-nodes]
+dolly01 redis-role=master
+dolly02 redis-role=slave
+dolly03 redis-role=sentinel
