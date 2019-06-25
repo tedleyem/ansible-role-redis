@@ -4,7 +4,8 @@
     protocol: tcp
     jump: ACCEPT
     destination_port: "{{ redis_port }}"
-  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version|int >= 6
+  become: true
+  when: ansible_distribution == 'RedHat'
 
 - name: Add TCP PORT {{ sentinel_port }}
   iptables:
@@ -12,7 +13,8 @@
     protocol: tcp
     jump: ACCEPT
     destination_port: "{{ sentinel_port }}"
-  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version|int >= 6
+  become: true
+  when: ansible_distribution == 'RedHat'
 
 - name: ADD FIREWALLD TCP PORT {{ redis_port }}
   firewalld:
@@ -20,7 +22,8 @@
    zone: public
    permanent: true
    state: enabled
-  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version|int >= 7
+  become: true
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version|int <= 7
 
 - name: ADD FIREWALLD TCP PORT {{ sentinel_port }}
   firewalld:
@@ -28,4 +31,9 @@
    zone: public
    permanent: true
    state: enabled
-  when: ansible_os_family == 'RedHat' and ansible_distribution_major_version|int >= 7
+  become: true
+  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version|int <= 7
+
+- name: RELOAD FIREWALL
+  command: firewall-cmd --reload
+  become: true

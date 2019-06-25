@@ -43,20 +43,12 @@
 - debug:
     msg: "Redis sentinels {{ redis_sentinels }}"
 
-- name: CREATE REDIS LOG DIR
-  file:
-    path: "{{ redis_logfile }}"
-    state: touch
-    mode: 0644
-  become: true
-
 - name: Create Redis dir's
   file:
    path: "{{item}}"
    state: directory
    mode: 0755
   with_items:
-    - "/etc/redis"
-    - "{{ redis_logfile }}"
-    - "{{ redis_run_dir }}"
     - "{{ redis_config_dir }}"
+    - "{{ redis_run_dir }}"
+    - "{{ redis_logfile }}"

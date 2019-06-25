@@ -1,6 +1,6 @@
 # Example sentinel.conf configuration location
 # /etc/redis/sentinel.conf
-daemonize {{ protected_mode }}
+daemonize yes
 {% if supervised_mode == "yes" %}
 supervised systemd
 {% endif %}

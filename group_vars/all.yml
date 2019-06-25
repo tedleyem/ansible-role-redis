@@ -1,8 +1,4 @@
 ---
-# To install specific version you can uncomment manual_install
-# and change value to yes
-epel_install: yes # set to yes or no to allow
-manual_install: no # set to yes or no to allow
 # MAIN REDIS CONFIGUTATION SETTINGS
 redis_version: "5.0.5"
 redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"

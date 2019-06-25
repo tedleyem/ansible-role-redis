@@ -3,9 +3,23 @@
   systemd:
     name: redis-sentinel
     state: started
-  
+
 - name: Start Redis
   systemd:
     name: redis
     state: started
   when: redis_role == "master" or redis_role == "slave"
+
+# checking output of previous command
+- name: Check Redis Connection
+  command: redis-cli -p {{ redis_port }} ping
+  register: check_redis
+
+- debug: msg="{{ check_redis.stdout }}"
+
+# checking output of previous command
+#- name: Check Redis Connection
+#  command: redis-cli -p {{ sentinel_port }} ping
+#  register: check_sentinel
+#
+#- debug: msg="{{ check_sentinel.stdout }}"
