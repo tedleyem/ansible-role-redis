@@ -7,7 +7,7 @@
     - name: Include vars
       include_vars:
         file: group_vars/all.yml
-    - import_tasks: "{{ playbook_dir }}/tasks/setup_requirements.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/0.setup_requirements.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/1.install.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/2.copy.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/3.firewall.yml"
