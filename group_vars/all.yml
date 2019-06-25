@@ -11,8 +11,8 @@ redis_port: "6379"
 sentinel_port: "26379"
 redis_bind_loop: 127.0.0.1
 redis_requirepass: password123
-redis_master_auth: "master"
-redis_master_name: "redis-node-master"
+redis_master_auth: master
+redis_master_name: redis-node-master
 # SENTINEL CONFIGURATION SETTINGS
 sentinel_requirepass: password123
 sentinel_deny_scripts_reconfig: yes

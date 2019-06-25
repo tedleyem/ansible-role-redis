@@ -36,10 +36,10 @@ include {{ include }}
 {% endfor %}
 
 {% if redis_master_auth %}
-masterauth {{ redis_master_auth }}
+masterauth "{{ redis_master_auth }}"
 {% endif %}
 {% if redis_requirepass %}
-requirepass {{ redis_requirepass }}
+requirepass "{{ redis_requirepass }}"
 {% endif %}
 
 {% for redis_disabled_command in redis_disabled_commands %}
