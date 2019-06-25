@@ -10,7 +10,7 @@
     data_yaml: |
       #!jinja2: lstrip_blocks: True
       {% for host in groups['redis-nodes'] %}
-        {% if hostvars[host]['redis-role'] == 'master' %}
+        {% if hostvars[host]['redis_role'] == 'master' %}
         - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
         {% endif %}
       {% endfor %}
@@ -22,7 +22,7 @@
     data_yaml: |
       #!jinja2: lstrip_blocks: True
       {% for host in groups['redis-nodes'] %}
-        {% if hostvars[host]['redis-role'] == 'slave' %}
+        {% if hostvars[host]['redis_role'] == 'slave' %}
         - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
         {% endif %}
       {% endfor %}
@@ -34,7 +34,7 @@
     data_yaml: |
       #!jinja2: lstrip_blocks: True
       {% for host in groups['redis-nodes'] %}
-        {% if hostvars[host]['redis-role'] == 'sentinel' %}
+        {% if hostvars[host]['redis_role'] == 'sentinel' %}
         - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
         {% endif %}
       {% endfor %}

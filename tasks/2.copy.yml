@@ -1,29 +1,24 @@
 ---
-#- debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-#  register: redis_master_ip
-
-#- debug: var=hostvars[inventory_hostname]['ansible_default_ipv4']['address']
-#  register: redis_slave_ip
-
- #COPY PORT 1 FILES
+ #COPY MASTER CONF
 - name: Copy redis master conf
   template:
     src: master-conf.j2
     dest: "/etc/redis/redis.conf"
   become: true
-  when:  env == master
-
+  when: redis_role == "master"
+  
+ #COPY SLAVE CONF
 - name: Copy Redis slave conf
   template:
     src: slave-conf.j2
     dest: "/etc/redis/redis.conf"
   become: true
-  when:  redis-role == slave
+  when: redis_role == "slave"
 
- #COPY PORT 2 FILES
+ #COPY SENTINEL CONF
 - name: Copy Redis-Sentinel conf
   template:
     src: sentinel.j2
     dest: "/etc/redis/sentinel.conf"
   become: true
-  when:  env == sentinel
+  when: redis_role == "sentinel"
