@@ -12,9 +12,8 @@
 
 # checking output of previous command
 - name: Check Redis Connection
-  command: redis-cli -p {{ redis_port }} ping
+  command: "redis-cli -p {{ redis_port }} ping"
   register: check_redis
-
 - debug: msg="{{ check_redis.stdout }}"
 
 # checking output of previous command

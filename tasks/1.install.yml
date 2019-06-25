@@ -12,39 +12,20 @@
     remote_src: yes
   become: true
 
-- name: copy redis-server to
-  command: "cp src/redis-server /usr/local/bin/"
+- name: copy redis-server to /usr/local/bin/
+  copy:
+    src: "{{ redis_dir }}/src/redis-server"
+    dest: /usr/local/bin/
   become: true
-  args:
-    chdir: "{{ redis_dir }}"
 
-- name: copy redis-cli
-  command: "cp src/redis-cli /usr/local/bin/"
+- name: copy redis-cli to /usr/local/bin/
+  copy:
+    src: "{{ redis_dir }}/src/redis-cli"
+    dest: /usr/local/bin/
   become: true
-  args:
-    chdir: "{{ redis_dir }}"
 
 - name: run make install
   command: "sudo make"
   become: true
   args:
     chdir: "{{ redis_dir }}"
-
-#- name: sudo make test
-#  command: "sudo make test"
-#  args:
-#    chdir: "{{ redis_dir }}/"
-#  become: true
-#  register: install_test
-
-#- name: Add Epel repository
-#  yum_repository:
-#    name: epel
-#    description: EPEL YUM repo
-#    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-
-#- name: Install Redis
-#  yum:
-#    name: redis
-#    state: present
-#  become: true
