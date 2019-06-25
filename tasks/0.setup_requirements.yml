@@ -1,4 +1,10 @@
 ---
+- name: Install dependancies
+  package:
+    name: [cmake, tcl]
+    state: present
+  become: true
+  
 - name: build list of Redis Masters
   vars:
     data_yaml: |
@@ -41,33 +47,3 @@
     msg: "Redis slaves {{ redis_slaves }}"
 - debug:
     msg: "Redis sentinels {{ redis_sentinels }}"
-
-- name: Create Redis dir's
-  file:
-   path: "{{item}}"
-   state: directory
-   mode: 0755
-  with_items:
-    - "{{ redis_config_dir }}"
-    - "{{ redis_run_dir }}"
-  become: true
-
-- name: Create Redis LOG DIR
-  file:
-   path: "{{item}}"
-   state: touch
-   mode: 0755
-  with_items:
-    - "{{ redis_logfile }}"
-    - "{{ sentinel_logfile }}"
-  become: true
-
-# Fix overcommit_memory warnings
-- name: overcommit_memory warnings Fix
-  command: "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf"
-  become: true
-
-# Fix for  Transparent Huge Pages (THP) support in kernet
-- name: Transparent Huge Pages Fix
-  command: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
-  become: true

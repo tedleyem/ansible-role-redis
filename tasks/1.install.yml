@@ -1,8 +1,32 @@
 ---
-- name: Install dependancies
-  package:
-    name: [cmake, tcl]
-    state: present
+- name: Create Redis dir's
+  file:
+   path: "{{item}}"
+   state: directory
+   mode: 0755
+  with_items:
+    - "{{ redis_config_dir }}"
+    - "{{ redis_run_dir }}"
+  become: true
+
+- name: Create Redis LOG DIR
+  file:
+   path: "{{item}}"
+   state: touch
+   mode: 0755
+  with_items:
+    - "{{ redis_logfile }}"
+    - "{{ sentinel_logfile }}"
+  become: true
+
+# Fix overcommit_memory warnings
+- name: overcommit_memory warnings Fix
+  command: "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf"
+  become: true
+
+# Fix for  Transparent Huge Pages (THP) support in kernet
+- name: Transparent Huge Pages Fix
+  command: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
   become: true
 
 - name: Download and Extract Redis {{ redis_version }}
@@ -16,7 +40,13 @@
   command: "sudo make test"
   become: true
   args:
-    chdir: "{{ redis_dir }}"
+    chdir: "{{ redis_dir }}/src/"
+
+- name: run make install
+  command: "sudo make"
+  become: true
+  args:
+    chdir: "{{ redis_dir }}/src/"
 
 - name: copy redis-server to /usr/local/bin/
   copy:
@@ -31,9 +61,3 @@
     dest: /usr/local/bin/
     remote_src: yes
   become: true
-
-- name: run make install
-  command: "sudo make"
-  become: true
-  args:
-    chdir: "{{ redis_dir }}"
