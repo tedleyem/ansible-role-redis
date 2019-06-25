@@ -11,23 +11,19 @@
     src: master-conf.j2
     dest: "/etc/redis/redis.conf"
   become: true
-  when: "{{ hostvars['redis-role'].master }}"
-#  when: "redis-role == 'master'"
-#  when: "redis_masters is defined and redis-role == 'master"
+  when:  env == master
 
 - name: Copy Redis slave conf
   template:
     src: slave-conf.j2
     dest: "/etc/redis/redis.conf"
   become: true
-  when: "{{ hostvars['redis-role'].slave }}"
-#  when: "redis-role == 'slave'"
-#  when: redis_slaves is defined
+  when:  redis-role == slave
 
  #COPY PORT 2 FILES
-- name: Copy Redis-Sentinel slave conf
+- name: Copy Redis-Sentinel conf
   template:
     src: sentinel.j2
     dest: "/etc/redis/sentinel.conf"
   become: true
-  when: "{{ hostvars['redis-role'].sentinel }}"
+  when:  env == sentinel
