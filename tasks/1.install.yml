@@ -16,12 +16,14 @@
   copy:
     src: "{{ redis_dir }}/src/redis-server"
     dest: /usr/local/bin/
+    remote_src: yes
   become: true
 
 - name: copy redis-cli to /usr/local/bin/
   copy:
     src: "{{ redis_dir }}/src/redis-cli"
     dest: /usr/local/bin/
+    remote_src: yes
   become: true
 
 - name: run make install

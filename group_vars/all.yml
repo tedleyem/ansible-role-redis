@@ -4,8 +4,9 @@ redis_version: "5.0.5"
 redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
 redis_dir: "/opt/redis-{{ redis_version }}"
 install_dir: "/opt/"
-redis_run_dir: /var/run/redis
-redis_config_dir: /etc/redis
+redis_run_dir: "/var/run/redis"
+redis_config_dir: "/etc/redis"
+redis_logfile: "/var/log/redis.log"
 redis_port: "6379"
 sentinel_port: "26379"
 redis_bind_loop: 127.0.0.1
@@ -27,7 +28,6 @@ redis_daemon: redis
 redis_unixsocket:
 redis_timeout: 300
 redis_loglevel: "notice"
-redis_logfile: /var/log/redis.log
 redis_databases: 16
 redis_save:
   - 900 1

@@ -52,3 +52,9 @@
     - "{{ redis_config_dir }}"
     - "{{ redis_run_dir }}"
     - "{{ redis_logfile }}"
+
+- name: Create Redis LOG DIR
+  file:
+   path: "{{ redis_logfile }}"
+   state: touch
+   mode: 0644
