@@ -1,0 +1,11 @@
+---
+- name: Start Redis Sentinel
+  systemd:
+    name: redis-sentinel
+    state: started
+  
+- name: Start Redis
+  systemd:
+    name: redis
+    state: started
+  when: redis_role == "master" or redis_role == "slave"

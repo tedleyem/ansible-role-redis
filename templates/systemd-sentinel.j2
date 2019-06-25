@@ -1,0 +1,14 @@
+[Unit]
+Description=Redis Sentinel In-Memory Data Store
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/redis-sentinel /etc/redis/sentinel.conf --supervised systemd
+ExecStop=/usr/local/bin/redis-cli shutdown redis-sentinel
+Restart=always
+RestartSec=10
+LimitNOFILE=10240
+
+[Install]
+WantedBy=multi-user.target

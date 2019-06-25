@@ -1,24 +1,18 @@
 ---
+
  #COPY MASTER CONF
-- name: Copy redis master conf
+- name: Copy /etc/redis/redis.conf template
   template:
-    src: master-conf.j2
+    src: "{{ redis_role }}-conf.j2"
     dest: "/etc/redis/redis.conf"
+    mode: 0644
   become: true
-  when: redis_role == "master"
-  
- #COPY SLAVE CONF
-- name: Copy Redis slave conf
-  template:
-    src: slave-conf.j2
-    dest: "/etc/redis/redis.conf"
-  become: true
-  when: redis_role == "slave"
+#  when: redis_role == "master" or
 
  #COPY SENTINEL CONF
-- name: Copy Redis-Sentinel conf
+- name: Copy /etc/redis/sentinel.conf  template
   template:
-    src: sentinel.j2
+    src: "sentinel.j2"
     dest: "/etc/redis/sentinel.conf"
+    mode: 0644
   become: true
-  when: redis_role == "sentinel"

@@ -8,8 +8,11 @@
       include_vars:
         file: group_vars/all.yml
     - import_tasks: "{{ playbook_dir }}/tasks/setup_requirements.yml"
-    - import_tasks: "{{ playbook_dir }}/tasks/1.install.yml"
-#    - import_tasks: "{{ playbook_dir }}/tasks/1.manual_install.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/1.epel_install.yml"
+      when: epel_install is defined
+    - import_tasks: "{{ playbook_dir }}/tasks/1.latest_install.yml"
+      when: manual_install is defined
     - import_tasks: "{{ playbook_dir }}/tasks/2.copy.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/3.firewall.yml"
-    - import_tasks: "{{ playbook_dir }}/tasks/4.start.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/4.systemd.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/5.start.yml"

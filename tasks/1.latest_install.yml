@@ -1,17 +1,15 @@
 ---
+- name: Install dependancies
+  package:
+    name: [cmake, tcl]
+    state: latest
+  become: true
+
 - name: Download and Extract Redis {{ redis_version }}
   unarchive:
     src: "{{ redis_url }}"
     dest: "{{ install_dir }}"
     remote_src: yes
-  become: true
-
-- name: create redis run dir
-  file:
-    path: /var/run/redis
-    state: directory
-    group: root
-    owner: root
   become: true
 
 - name: sudo make test

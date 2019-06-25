@@ -1,28 +1,37 @@
 ---
+# To install specific version you can uncomment manual_install
+# and change value to yes
+epel_install: yes # set to yes or no to allow
+manual_install: no # set to yes or no to allow
+# MAIN REDIS CONFIGUTATION SETTINGS
 redis_version: "5.0.5"
 redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
 redis_dir: "/opt/redis-{{ redis_version }}"
 install_dir: "/opt/"
-
-redis_enablerepo: epel
-redis_unixsocket: ''
-redis_daemon: redis
-redis_conf_path: /etc/redis.conf
-redis_node_name: redis-node-master
-# Used for RHEL/CentOS/Fedora only. Allows the use of different repos.
-redis_port: 6379
+redis_run_dir: /var/run/redis
+redis_config_dir: /etc/redis
+redis_port: "6379"
+sentinel_port: "26379"
 redis_bind_loop: 127.0.0.1
-redis_bind_interface: 127.0.0.1
-#redis_unixsocket: ''
-#redis_master_interface:
-#redis_slave_interface:
-#sentinel_master_interface:
-#sentinel_slave_interface:
-#sentinel_iso_interface:
+redis_requirepass: password123
+redis_master_name: redis-node-master
+# SENTINEL CONFIGURATION SETTINGS
+sentinel_requirepass: password123
+sentinel_deny_scripts_reconfig: yes
+protected_mode: yes
+supervised_mode: yes # set to yes or no to allow
+sentinel_pid: /var/run/redis-sentinel.pid
+sentinel_logfile: /var/log/redis-sentinel.log
+sentinel_quorum: 2
+sentinel_down_ms: 6000
+sentinel_failtime: 800
 
+# REDIS.CONF SETTINGS
+redis_daemon: redis
+redis_unixsocket:
 redis_timeout: 300
 redis_loglevel: "notice"
-redis_logfile: /var/log/redis/redis-server.log
+redis_logfile: /var/log/redis.log
 redis_databases: 16
 redis_save:
   - 900 1
@@ -38,10 +47,6 @@ redis_appendonly: "no"
 redis_appendfsync: "everysec"
 # Add extra include files for local configuration/overrides.
 redis_includes: []
-# Require authentication to Redis with a password.
-redis_requirepass: "password123"
-
-
 # Disable certain Redis commands for security reasons.
 redis_disabled_commands: []
 #  - FLUSHDB
@@ -58,7 +63,6 @@ redis_disabled_commands: []
 #  - SREM
 #  - RENAME
 #  - DEBUG
-
 slave_serve_stale_data: "yes"
 slave_read_only: "yes"
 repl_diskless_sync: "no"
