@@ -40,13 +40,6 @@
     remote_src: yes
   become: true
 
-#- name: run make test
-#  command: "sudo make test"
-#  become: true
-#  ignore_errors: True
-#  args:
-#    chdir: "{{ redis_dir }}/src/"
-
 - name: Run 'make install' target as root
   make:
     chdir: "{{ redis_dir }}/src/"
