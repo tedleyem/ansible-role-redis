@@ -11,11 +11,6 @@ timeout {{ redis_timeout }}
 loglevel {{ redis_loglevel }}
 logfile {{ redis_logfile }}
 
-# To enable logging to the system logger, just set 'syslog-enabled' to yes,
-# and optionally update the other syslog parameters to suit your needs.
-# syslog-enabled no
-# syslog-ident redis
-# syslog-facility local0
 databases {{ redis_databases }}
 {% for save in redis_save %}
 save {{ save }}
@@ -45,6 +40,7 @@ requirepass "{{ redis_requirepass }}"
 {% for redis_disabled_command in redis_disabled_commands %}
 rename-command {{ redis_disabled_command }} ""
 {% endfor %}
+
 {% for host in groups['redis-nodes'] %}
 {% if hostvars[host]['redis_role'] == 'slave' %}
 replicaof {{redis_masters}} {{ redis_port }}
