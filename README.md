@@ -5,7 +5,7 @@ Redis-Sentinel HA Setup
 This role is designed to setup a Master/Slave High Availability
 cluster with 3 sentinel instances running for a fault tolerant Redis Environment.
 
-==Requirements==
+##Requirements##
 
 This playbook prompts for Session or Cache cluster
 This only affects the parameters saved in the redis.conf file.
@@ -13,7 +13,7 @@ This only affects the parameters saved in the redis.conf file.
 Cache Cluster: saves redis data in memory (normal behavior in an LRU/Memcached setup)
 Session Cluster: saves data on disk (Setup for using Redis as a Sesssion store)
 
-==Cache vs Session store==
+##Cache vs Session store##
 LINK: https://redislabs.com/blog/cache-vs-session-store/
 
 This playbook also requires specific host variables
@@ -24,7 +24,7 @@ This playbook also requires specific host variables
  dolly03 redis_role=sentinel
 
 
-==Role Variables==
+##Role Variables##
  all variables can be found under group_vars/all.yml file
   redis_version: "5.0.5"
   redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
@@ -51,11 +51,11 @@ This playbook also requires specific host variables
   sentinel_down_ms: 6000
   sentinel_failtime: 800
 
-==Dependencies==
+##Dependencies##
 ----------
  tcl and cmake tools are required to install redis from sources.
 
-==Test Playbook==
+##Test Playbook##
 
  ansible-playbook -i tests/inventory roles/redis-sentinel-HA/main.yml
 
