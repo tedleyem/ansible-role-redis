@@ -24,7 +24,7 @@ This playbook also requires specific host variables
  dolly03 redis_role=sentinel
 
 
-## Role Variables##
+## Role Variables
  all variables can be found under group_vars/all.yml file
   redis_version: "5.0.5"
   redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
@@ -40,7 +40,6 @@ This playbook also requires specific host variables
   redis_requirepass: password123
   redis_master_auth: master
   redis_master_name: redis-node-master
-  # SENTINEL CONFIGURATION SETTINGS
   sentinel_requirepass: password123
   sentinel_deny_scripts_reconfig: yes
   protected_mode: yes
