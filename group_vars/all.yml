@@ -23,7 +23,7 @@ sentinel_pid: /var/run/redis-sentinel.pid
 sentinel_logfile: /var/log/redis-sentinel.log
 sentinel_quorum: 2
 sentinel_down_ms: 6000
-sentinel_failtime: 800
+sentinel_failtime: 8000
 
 # REDIS.CONF SETTINGS
 redis_daemon: redis
