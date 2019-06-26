@@ -1,14 +1,15 @@
 ---
  #COPY MASTER CONF
-- name: Copy /etc/redis/redis.conf template
+- name: Copy Redis CACHE template
   template:
-    src: "{{ redis_role }}-conf.j2"
+    src: "{{ redis_role }}-cache-conf.j2"
     dest: "/etc/redis/redis.conf"
     mode: 0644
   become: true
+  when: redis_role != "sentinel"
 
  #COPY SENTINEL CONF
-- name: Copy /etc/redis/sentinel.conf  template
+- name: Copy Sentinel CACHE template
   template:
     src: "sentinel.j2"
     dest: "/etc/redis/sentinel.conf"
