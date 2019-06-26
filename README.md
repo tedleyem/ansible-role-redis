@@ -25,30 +25,30 @@ This playbook also requires specific host variables
 
 
 ## Role Variables
- all variables can be found under group_vars/all.yml file
-  redis_version: "5.0.5"
-  redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
-  redis_dir: "/opt/redis-{{ redis_version }}"
-  install_dir: "/opt/"
-  redis_run_dir: "/var/run/redis"
-  redis_config_dir: "/etc/redis"
-  redis_lib_dir: /var/lib/redis
-  redis_logfile: /var/log/redis.log
-  redis_port: "6379"
-  sentinel_port: "26379"
-  redis_bind_loop: 127.0.0.1
-  redis_requirepass: password123
-  redis_master_auth: master
-  redis_master_name: redis-node-master
-  sentinel_requirepass: password123
-  sentinel_deny_scripts_reconfig: yes
-  protected_mode: yes
-  supervised_mode: yes # set to yes or no to allow
-  sentinel_pid: /var/run/redis-sentinel.pid
-  sentinel_logfile: /var/log/redis-sentinel.log
-  sentinel_quorum: 2
-  sentinel_down_ms: 6000
-  sentinel_failtime: 800
+### all variables can be found under group_vars/all.yml file
+- redis_version: "5.0.5"
+- redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
+- redis_dir: "/opt/redis-{{ redis_version }}"
+- install_dir: "/opt/"
+- redis_run_dir: "/var/run/redis"
+- redis_config_dir: "/etc/redis"
+- redis_lib_dir: /var/lib/redis
+- redis_logfile: /var/log/redis.log
+- redis_port: "6379"
+- sentinel_port: "26379"
+- redis_bind_loop: 127.0.0.1
+- redis_requirepass: password123
+- redis_master_auth: master
+- redis_master_name: redis-node-master
+- sentinel_requirepass: password123
+- sentinel_deny_scripts_reconfig: yes
+- protected_mode: yes
+- supervised_mode: yes # set to yes or no to allow
+- sentinel_pid: /var/run/redis-sentinel.pid
+- sentinel_logfile: /var/log/redis-sentinel.log
+- sentinel_quorum: 2
+- sentinel_down_ms: 6000
+- sentinel_failtime: 800
 
 ## Dependencies
 ----------
