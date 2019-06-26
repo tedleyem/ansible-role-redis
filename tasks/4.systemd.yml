@@ -17,14 +17,17 @@
 - name: Reload systemd
   systemd:
     daemon_reload: yes
+  become: true
 
 - name: Ensure Redis is is started on runtime
   systemd:
     name: redis
     enabled: yes
+  become: true
   when: redis_role != "sentinel"
 
 - name: Ensure Redis is is started on runtime
   systemd:
     name: redis-sentinel
     enabled: yes
+  become: true

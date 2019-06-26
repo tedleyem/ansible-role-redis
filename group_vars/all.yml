@@ -6,6 +6,7 @@ redis_dir: "/opt/redis-{{ redis_version }}"
 install_dir: "/opt/"
 redis_run_dir: "/var/run/redis"
 redis_config_dir: "/etc/redis"
+redis_lib_dir: /var/lib/redis
 redis_logfile: /var/log/redis.log
 redis_port: "6379"
 sentinel_port: "26379"

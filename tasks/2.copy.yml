@@ -1,5 +1,4 @@
 ---
-
  #COPY MASTER CONF
 - name: Copy /etc/redis/redis.conf template
   template:
@@ -7,7 +6,6 @@
     dest: "/etc/redis/redis.conf"
     mode: 0644
   become: true
-#  when: redis_role == "master" or
 
  #COPY SENTINEL CONF
 - name: Copy /etc/redis/sentinel.conf  template

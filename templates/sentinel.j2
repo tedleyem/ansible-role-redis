@@ -1,5 +1,4 @@
-# Example sentinel.conf configuration location
-# /etc/redis/sentinel.conf
+# {{ ansible_managed }}
 daemonize yes
 {% if supervised_mode == "yes" %}
 supervised systemd
@@ -7,12 +6,12 @@ supervised systemd
 dir {{ redis_dbdir }}
 pidfile {{ sentinel_pid }}
 logfile {{ sentinel_logfile }}
-protected-mode {{ protected_mode }}
+protected-mode yes
 {% if sentinel_requirepass %}
 requirepass {{ sentinel_requirepass }}
 {% endif %}
 
-bind {{ redis_sentinels }} {{ redis_bind_loop }}
+bind {{ ansible_default_ipv4.address }} {{ redis_bind_loop }}
 port {{ sentinel_port }}
 {% if sentinel_deny_scripts_reconfig == "yes" %}
 sentinel deny-scripts-reconfig {{ sentinel_deny_scripts_reconfig }}

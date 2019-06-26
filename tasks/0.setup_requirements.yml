@@ -4,8 +4,12 @@
     name: [cmake, tcl]
     state: present
   become: true
-  
-- name: build list of Redis Masters
+
+- name: Install Python dependancies
+  pip:
+    name: netaddr
+
+- name: Get list of Redis Masters
   vars:
     data_yaml: |
       #!jinja2: lstrip_blocks: True
@@ -15,35 +19,5 @@
         {% endif %}
       {% endfor %}
   set_fact:
-    redis_masters: "{{ data_yaml | from_yaml }}"
-
-- name: build list of Redis Slaves
-  vars:
-    data_yaml: |
-      #!jinja2: lstrip_blocks: True
-      {% for host in groups['redis-nodes'] %}
-        {% if hostvars[host]['redis_role'] == 'slave' %}
-        - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
-        {% endif %}
-      {% endfor %}
-  set_fact:
-    redis_slaves: "{{ data_yaml | from_yaml }}"
-
-- name: build list of Redis Sentinels
-  vars:
-    data_yaml: |
-      #!jinja2: lstrip_blocks: True
-      {% for host in groups['redis-nodes'] %}
-        {% if hostvars[host]['redis_role'] == 'sentinel' %}
-        - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
-        {% endif %}
-      {% endfor %}
-  set_fact:
-    redis_sentinels: "{{ data_yaml | from_yaml }}"
-
-- debug:
-    msg: "Redis master {{ redis_masters }}"
-- debug:
-    msg: "Redis slaves {{ redis_slaves }}"
-- debug:
-    msg: "Redis sentinels {{ redis_sentinels }}"
+    # Its ugly but this eliminates white spaces adn new lines to format the given value into the redis conf files correctly
+    redis_masters: "{{ data_yaml | from_yaml | to_nice_yaml | regex_replace('-','') | regex_replace('\n','') | regex_replace('^\\/', '') }}"

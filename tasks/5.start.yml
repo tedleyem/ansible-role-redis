@@ -1,23 +1,13 @@
 ---
-- name: Start Redis Sentinel
-  systemd:
-    name: redis-sentinel
-    state: started
-
 - name: Start Redis
   systemd:
     name: redis
     state: started
-  when: redis_role == "master" or redis_role == "slave"
+  become: true
+  when: redis_role != "sentinel"
 
-# checking output of previous command
-- name: Check Redis Connection
-  command: "redis-cli -a {{ redis_requirepass }} -p {{ redis_port }} ping"
-  register: check_redis
-- debug: msg="{{ check_redis.stdout }}"
-
-# checking output of previous command
-#- name: Check Sentinel Connection
-#  command: "redis-cli -a {{ redis_requirepass }} -p {{ redis_port }} ping"
-#  register: check_redis
-#- debug: msg="{{ check_redis.stdout }}"
+- name: Start Redis Sentinel
+  systemd:
+    name: redis-sentinel
+    state: started
+  become: true

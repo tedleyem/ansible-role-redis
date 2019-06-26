@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 daemonize yes
 pidfile /var/run/redis/{{ redis_daemon }}.pid
-bind {{ redis_bind_loop }} {{ redis_masters }}
+bind {{ redis_bind_loop }} {{ ansible_default_ipv4.address }}
 port {{ redis_port }}
 
 {% if redis_unixsocket %}
@@ -47,6 +47,6 @@ rename-command {{ redis_disabled_command }} ""
 {% endfor %}
 {% for host in groups['redis-nodes'] %}
 {% if hostvars[host]['redis_role'] == 'slave' %}
-replicaof {{redis_masters}}
+replicaof {{redis_masters}} {{ redis_port }}
 {% endif %}
 {% endfor %}

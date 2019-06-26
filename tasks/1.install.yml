@@ -7,6 +7,7 @@
   with_items:
     - "{{ redis_config_dir }}"
     - "{{ redis_run_dir }}"
+    - "{{ redis_lib_dir }}"
   become: true
 
 - name: Create Redis LOG DIR
@@ -19,15 +20,18 @@
     - "{{ sentinel_logfile }}"
   become: true
 
-# Fix overcommit_memory warnings
-- name: overcommit_memory warnings Fix
-  command: "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf"
+- name: Overcommit_memory warnings Fix
+  lineinfile:
+    path: "/etc/sysctl.conf"
+    line: "vm.overcommit_memory = 1"
   become: true
 
-# Fix for  Transparent Huge Pages (THP) support in kernet
-- name: Transparent Huge Pages Fix
-  command: "echo never > /sys/kernel/mm/transparent_hugepage/enabled"
-  become: true
+# Fix Transparent Huge Pages warnings
+#- name: Transparent Huge Pages Fix
+#  lineinfile:
+#    path: "/sys/kernel/mm/transparent_hugepage/enabled"
+#    line: "never"
+#  become: true
 
 - name: Download and Extract Redis {{ redis_version }}
   unarchive:
@@ -36,28 +40,39 @@
     remote_src: yes
   become: true
 
-- name: run make test
-  command: "sudo make test"
-  become: true
-  args:
-    chdir: "{{ redis_dir }}/src/"
+#- name: run make test
+#  command: "sudo make test"
+#  become: true
+#  ignore_errors: True
+#  args:
+#    chdir: "{{ redis_dir }}/src/"
 
-- name: run make install
-  command: "sudo make"
-  become: true
-  args:
+- name: Run 'make install' target as root
+  make:
     chdir: "{{ redis_dir }}/src/"
+    target: install
+  become: true
+
+- name: Run 'make install' target as root
+  make:
+    chdir: "{{ redis_dir }}/src/"
+    target: install
+  become: true
 
 - name: copy redis-server to /usr/local/bin/
   copy:
     src: "{{ redis_dir }}/src/redis-server"
     dest: /usr/local/bin/
+    mode: 0755
     remote_src: yes
   become: true
+  ignore_errors: True
 
 - name: copy redis-cli to /usr/local/bin/
   copy:
     src: "{{ redis_dir }}/src/redis-cli"
     dest: /usr/local/bin/
     remote_src: yes
+    mode: 0755
   become: true
+  ignore_errors: True
