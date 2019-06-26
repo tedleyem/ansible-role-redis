@@ -5,7 +5,7 @@ Redis-Sentinel HA Setup
 This role is designed to setup a Master/Slave High Availability
 cluster with 3 sentinel instances running for a fault tolerant Redis Environment.
 
-##Requirements##
+## Requirements
 
 This playbook prompts for Session or Cache cluster
 This only affects the parameters saved in the redis.conf file.
@@ -13,7 +13,7 @@ This only affects the parameters saved in the redis.conf file.
 Cache Cluster: saves redis data in memory (normal behavior in an LRU/Memcached setup)
 Session Cluster: saves data on disk (Setup for using Redis as a Sesssion store)
 
-##Cache vs Session store##
+## Cache vs Session store
 LINK: https://redislabs.com/blog/cache-vs-session-store/
 
 This playbook also requires specific host variables
