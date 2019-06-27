@@ -11,3 +11,9 @@
     name: redis-sentinel
     state: started
   become: true
+
+- debug:
+    msg:
+      - "Restart All servers to resolve the "
+      - "overcommit and transparent huge page"
+      - "warnings in redis logs"

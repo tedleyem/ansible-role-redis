@@ -27,11 +27,13 @@
   become: true
 
 # Fix Transparent Huge Pages warnings
-#- name: Transparent Huge Pages Fix
-#  lineinfile:
-#    path: "/sys/kernel/mm/transparent_hugepage/enabled"
-#    line: "never"
-#  become: true
+- name: Transparent Huge Pages Fix
+  replace:
+    path: /sys/kernel/mm/transparent_hugepage/enabled
+    regexp: '[always] madvise never'
+    replace: 'never'
+  become: true
+  ignore_errors: True
 
 - name: Download and Extract Redis {{ redis_version }}
   unarchive:
