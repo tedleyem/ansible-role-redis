@@ -48,10 +48,10 @@ no-appendfsync-on-rewrite no
 {% endif %}
 # Hardening Redis Settings
 {% if redis_master_auth %}
-masterauth {{ redis_master_auth }}
+masterauth "{{ redis_master_auth }}"
 {% endif %}
 {% if redis_requirepass %}
-requirepass {{ redis_requirepass }}
+requirepass "{{ redis_requirepass }}"
 {% endif %}
 # End Hardening Redis Settings
 {% for include in redis_includes %}
