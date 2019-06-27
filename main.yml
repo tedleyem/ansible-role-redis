@@ -2,9 +2,6 @@
   become: yes
   become_user: root
   become_method: sudo
-  vars_prompt:
-    - name: user_prompt
-      prompt: "Do you want to setup session(1) or cache(2) cluster (1/2)?"
   tasks:
     # Include variables and define needed variables.
     - name: Include vars
@@ -12,10 +9,7 @@
         file: group_vars/all.yml
     - import_tasks: "{{ playbook_dir }}/tasks/1.setup_requirements.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/2.install.yml"
-    - import_tasks: "{{ playbook_dir }}/tasks/3.copy-session.yml"
-      when: user_prompt == "1"
-    - import_tasks: "{{ playbook_dir }}/tasks/3.copy-cache.yml"
-      when: user_prompt == "2"
+    - import_tasks: "{{ playbook_dir }}/tasks/3.copy.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/4.selinux.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/5.firewall.yml"
     - import_tasks: "{{ playbook_dir }}/tasks/6.systemd.yml"

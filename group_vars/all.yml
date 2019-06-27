@@ -11,10 +11,11 @@ redis_logfile: /var/log/redis.log
 redis_port: "6379"
 sentinel_port: "26379"
 redis_bind_loop: 127.0.0.1
+
 redis_requirepass: password123
 redis_master_auth: master
-redis_master_name: redis-node-master
 # SENTINEL CONFIGURATION SETTINGS
+redis_master_name: redis-node-master
 sentinel_requirepass: password123
 sentinel_deny_scripts_reconfig: yes
 protected_mode: yes
@@ -31,36 +32,35 @@ redis_unixsocket:
 redis_timeout: 300
 redis_loglevel: "notice"
 redis_databases: 16
+redis_rdbcompression: "yes"
+redis_dbfilename: dump.rdb
+redis_dbdir: /var/lib/redis
+
+# Cache Only Options
+# uncomment these settings for cache only Redis Cluster
+redis_cache: 1 # add or remove value to apply
+cache_maxmemory_policy: "allkeys-lru"
+
+# Session Store Options
+# uncomment these settings for Session Store Redis Cluster
+redis_session: # add or remove value to apply
 redis_save:
   - 900 1
   - 300 10
   - 60 10000
-redis_rdbcompression: "yes"
-redis_dbfilename: dump.rdb
-redis_dbdir: /var/lib/redis
-redis_maxmemory: 0
-redis_maxmemory_policy: "noeviction"
+session_maxmemory_policy: "noeviction"
+
+# Other Redis configuration settings
+appendfsync_no: #no  #uncomment to add this option
+appendfsync_always: #always #uncomment to add this option
+appendfsync_everysec: everysec #uncomment to add this option
+appendonly: "no"
+appendfilename: "appendonly.aof"
+no_appendfsync_on_rewrite: yes #latency issue fix
+
+redis_maxmemory:
+appendfilename: "appendonly.aof"
 redis_maxmemory_samples: 5
-redis_appendonly: "no"
-redis_appendfsync: "everysec"
-# Add extra include files for local configuration/overrides.
-redis_includes: []
-# Disable certain Redis commands for security reasons.
-redis_disabled_commands: []
-#  - FLUSHDB
-#  - FLUSHALL
-#  - KEYS
-#  - PEXPIRE
-#  - DEL
-#  - CONFIG
-#  - SHUTDOWN
-#  - BGREWRITEAOF
-#  - BGSAVE
-#  - SAVE
-#  - SPOP
-#  - SREM
-#  - RENAME
-#  - DEBUG
 slave_serve_stale_data: "yes"
 slave_read_only: "yes"
 repl_diskless_sync: "no"
@@ -71,12 +71,6 @@ lazyfree_lazy_eviction: "no"
 lazyfree_lazy_expire: "no"
 lazyfree_lazy_server_del: "no"
 slave_lazy_flush: "no"
-appendonly: "no"
-appendfilename: "appendonly.aof"
-appendfsync1: always
-appendfsync2: ""
-appendfsync3: ""
-no_appendfsync_on_rewrite: "no"
 auto_aof_rewrite_percentage: "100"
 auto_aof_rewrite_min_size: "64mb"
 aof_load_truncated: "yes"
@@ -100,3 +94,21 @@ client_output_buffer_limit2: "slave 256mb 64mb 60"
 client_output_buffer_limit3: "pubsub 32mb 8mb 60"
 hz: "10"
 aof_rewrite_incremental_fsync: "yes"
+# Add extra include files for local configuration/overrides.
+redis_includes: []
+# Disable certain Redis commands for security reasons.
+redis_disabled_commands: []
+#  - FLUSHDB
+#  - FLUSHALL
+#  - KEYS
+#  - PEXPIRE
+#  - DEL
+#  - CONFIG
+#  - SHUTDOWN
+#  - BGREWRITEAOF
+#  - BGSAVE
+#  - SAVE
+#  - SPOP
+#  - SREM
+#  - RENAME
+#  - DEBUG
