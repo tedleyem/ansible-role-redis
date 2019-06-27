@@ -106,14 +106,13 @@ aof-load-truncated yes
 {% if aof_use_rdb_preamble %}
 aof-use-rdb-preamble no
 {% endif %}
-
-
-
 lua-time-limit {{lua_time_limit}}
 slowlog-log-slower-than {{slowlog_log_slower_than}}
 slowlog-max-len {{slowlog_max_len}}
 latency-monitor-threshold {{latency_monitor_threshold}}
-notify-keyspace-events {{""}}
+{% if notify_keyspace_events %}
+notify-keyspace-events ""
+{% endif %}
 hash-max-ziplist-entries {{hash_max_ziplist_entries}}
 hash-max-ziplist-value {{hash_max_ziplist_value}}
 list-max-ziplist-size {{list_max_ziplist_size}}
@@ -126,10 +125,10 @@ hll-sparse-max-bytes {{ hll_sparse_max_bytes }}
 {% if activerehashing %}
 activerehashing yes
 {% endif %}
-client-output-buffer-limit: {{ buffer_limit1 }}
+client-output-buffer-limit {{ buffer_limit1 }}
 client-output-buffer-limit {{ buffer_limit2 }}
 client-output-buffer-limit {{ buffer_limit3 }}
-hz: {{ hz }}
+hz {{ hz }}
 {% if aof_rewrite_incremental_fsync %}
 aof-rewrite-incremental-fsync yes
 {% endif %}
