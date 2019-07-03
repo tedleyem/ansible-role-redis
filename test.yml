@@ -2,8 +2,7 @@
   become: yes
   vars:
     # Cache or Only or Session-Store options
-    # Change to 1 for yes or 2 for no
-    # Both cannot be the same value
+    # Change to 1 for yes or 2 for no | Both values can't be the same
     - __redis_cache: 1
     - __redis_session: 0
   tasks:

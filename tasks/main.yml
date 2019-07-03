@@ -1,0 +1,7 @@
+- import_tasks: "1.setup_requirements.yml"
+- import_tasks: "2.install.yml"
+- import_tasks: "3.copy.yml"
+- import_tasks: "4.selinux.yml"
+- import_tasks: "5.firewall.yml"
+- import_tasks: "6.systemd.yml"
+- import_tasks: "7.start.yml"
