@@ -1,4 +1,6 @@
 - hosts: redis-nodes
   become: yes
-  roles:
-  - role: tmeralus.redis_sentinel_ha
+  tasks:
+    - name: Include OS-specific variables.
+      include_vars: "{{ playbook_dir }}/defaults/main.yml"
+    - import_tasks: "{{ playbook_dir }}/tasks/main.yml"
