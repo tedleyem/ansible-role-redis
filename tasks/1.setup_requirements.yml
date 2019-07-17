@@ -1,14 +1,4 @@
 ---
-- name: Define redis_cache.
-  set_fact:
-    redis_cache: "{{ __redis_cache }}"
-  when: redis_cache is not defined
-
-- name: Define redis_session.
-  set_fact:
-    redis_session: "{{ __redis_session }}"
-  when: redis_session is not defined
-
 - name: Install dependancies
   package:
     name: [cmake, tcl]

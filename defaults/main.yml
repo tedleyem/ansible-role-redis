@@ -13,8 +13,9 @@ sentinel_port: "26379"
 redis_bind_loop: 127.0.0.1
 
 # Cache or Only or Session-Store options
-#redis_cache: 1 # add or remove value to apply
-#redis_session: # add or remove value to apply
+# Change to 1 for yes or 2 for no | Both values can't be the same
+redis_cache: 1
+redis_session: 0
 redis_requirepass: #password123
 redis_master_auth: #master
 
