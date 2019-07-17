@@ -19,5 +19,5 @@
         {% endif %}
       {% endfor %}
   set_fact:
-    # Its ugly but this eliminates white spaces adn new lines to format the given value into the redis conf files correctly
+    # Its ugly but this eliminates white spaces and new lines to format the given value into the redis conf files correctly
     redis_masters: "{{ data_yaml | from_yaml | to_nice_yaml | regex_replace('-','') | regex_replace('\n','') | regex_replace('^\\/', '') }}"
