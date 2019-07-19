@@ -6,7 +6,7 @@
     jump: ACCEPT
     destination_port: "{{ redis_port }}"
   become: true
-  when: "firewall_rules.stat.exists == false"
+  when: "firewall_rules.stat.exists == "false"
 
 - name: Add TCP PORT {{ sentinel_port }}
   iptables:
@@ -15,7 +15,7 @@
     jump: ACCEPT
     destination_port: "{{ sentinel_port }}"
   become: true
-  when: "firewall_rules.stat.exists == false"
+  when: "firewall_rules.stat.exists == "false"
 
 - name: ADD FIREWALLD TCP PORT {{ redis_port }}
   firewalld:
@@ -24,7 +24,7 @@
    permanent: true
    state: enabled
   become: true
-  when: "firewall_rules.stat.exists == true"
+  when: "firewall_rules.stat.exists == "true"
 
 - name: ADD FIREWALLD TCP PORT {{ sentinel_port }}
   firewalld:
@@ -33,18 +33,18 @@
    permanent: true
    state: enabled
   become: true
-  when: "firewall_rules.stat.exists == true"
+  when: "firewall_rules.stat.exists == "true"
 
 - name: RELOAD FIREWALLD
   systemd:
     name: firewalld
     state: reloaded
   become: true
-  when: "firewall_rules.stat.exists == true"
+  when: "firewall_rules.stat.exists == "true"
 
 - name: RESTART IPTABLES
   service:
     name: iptables
     state: restarted
   become: true
-  when: "firewall_rules.stat.exists == false"
+  when: "firewall_rules.stat.exists == "false"
