@@ -1,3 +1,4 @@
+---
 - name: Add TCP PORT {{ redis_port }}
   iptables:
     chain: INPUT
@@ -5,7 +6,7 @@
     jump: ACCEPT
     destination_port: "{{ redis_port }}"
   become: true
-  when: ansible_distribution == 'RedHat'
+  when: "firewall_rules.stat.exists == false"
 
 - name: Add TCP PORT {{ sentinel_port }}
   iptables:
@@ -14,7 +15,7 @@
     jump: ACCEPT
     destination_port: "{{ sentinel_port }}"
   become: true
-  when: ansible_distribution == 'RedHat'
+  when: "firewall_rules.stat.exists == false"
 
 - name: ADD FIREWALLD TCP PORT {{ redis_port }}
   firewalld:
@@ -23,7 +24,7 @@
    permanent: true
    state: enabled
   become: true
-  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version|int <= 7
+  when: "firewall_rules.stat.exists == true"
 
 - name: ADD FIREWALLD TCP PORT {{ sentinel_port }}
   firewalld:
@@ -32,10 +33,18 @@
    permanent: true
    state: enabled
   become: true
-  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version|int <= 7
+  when: "firewall_rules.stat.exists == true"
 
 - name: RELOAD FIREWALLD
   systemd:
     name: firewalld
     state: reloaded
   become: true
+  when: "firewall_rules.stat.exists == true"
+
+- name: RESTART IPTABLES
+  service:
+    name: iptables
+    state: restarted
+  become: true
+  when: "firewall_rules.stat.exists == false"

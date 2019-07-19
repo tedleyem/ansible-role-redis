@@ -18,6 +18,7 @@
   systemd:
     daemon_reload: yes
   become: true
+  when: "systemd_check.stat.exists == true"
 
 - name: Ensure Redis is is started on runtime
   systemd:

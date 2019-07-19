@@ -9,6 +9,16 @@
   pip:
     name: netaddr
 
+- name: check for systemd
+  stat:
+    path: /etc/systemd
+  register: systemd_check
+
+- name: check if firewalld exists
+  stat:
+    path: /etc/sysconfig/firewalld
+  register: firewall_rules
+  
 - name: Get list of Redis Masters
   vars:
     data_yaml: |
