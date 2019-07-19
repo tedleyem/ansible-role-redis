@@ -1,4 +1,4 @@
-- hosts: redis-nodes
+- hosts: redis_nodes
   become: yes
   tasks:
     - name: Include OS-specific variables.

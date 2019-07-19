@@ -136,7 +136,7 @@ aof-rewrite-incremental-fsync yes
 
 
 # Replication settings
-{% for host in groups['redis-nodes'] %}
+{% for host in groups['redis_nodes'] %}
 {% if hostvars[host]['redis_role'] == 'slave' %}
 replicaof {{redis_masters}} {{ redis_port }}
 {% endif %}

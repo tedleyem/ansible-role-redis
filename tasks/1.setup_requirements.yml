@@ -13,7 +13,7 @@
   vars:
     data_yaml: |
       #!jinja2: lstrip_blocks: True
-      {% for host in groups['redis-nodes'] %}
+      {% for host in groups['redis_nodes'] %}
         {% if hostvars[host]['redis_role'] == 'master' %}
         - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
         {% endif %}
