@@ -30,7 +30,6 @@ maxmemory {{ redis_maxmemory }}
 maxmemory-samples {{ redis_maxmemory_samples }}
 {% endif %}
 
-
 # Cache vs Session store options
 {% if redis_cache == 1 %}
 # Redis Cache Only Options
@@ -40,6 +39,8 @@ maxmemory-policy {{ cache_maxmemory_policy }}
 # Redis Session Store Options
 {% for save in redis_save %}
 save {{ save }}
+appendfsync always
+appendfsync everysec
 {% endfor %}
 maxmemory-policy {{ session_maxmemory_policy }}
 {% endif %}
@@ -79,7 +80,7 @@ replica-serve-stale-data yes
 replica-read-only yes
 {% endif %}
 {% if repl_diskless_sync %}
-repl-diskless-sync no
+repl-diskless-sync yes
 {% endif %}
 repl-diskless-sync-delay {{repl_diskless_sync_delay}}
 {% if repl_disable_tcp_nodelay %}
@@ -126,6 +127,7 @@ hll-sparse-max-bytes {{ hll_sparse_max_bytes }}
 activerehashing yes
 {% endif %}
 client-output-buffer-limit {{ buffer_limit1 }}
+{% else %}
 client-output-buffer-limit {{ buffer_limit2 }}
 client-output-buffer-limit {{ buffer_limit3 }}
 hz {{ hz }}
