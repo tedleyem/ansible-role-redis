@@ -1,7 +1,7 @@
 # Ansible playbook to install redis
 Redis-Sentinel HA Setup
 
-This role is designed to setup a Master/Slave High Availability
+This role is designed to setup a Parent/Child High Availability
 cluster with 3 sentinel instances running for a fault tolerant Redis Environment.
 
 ## Requirements
