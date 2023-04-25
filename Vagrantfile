@@ -4,7 +4,7 @@ config.vm.define "virtualbox" do |dev|
     # Set the hostname of the VM 
     dev.vm.hostname = "devbox-ansible"
      
-    # Set the box (OS) for the Virtual machine, we use centos7 
+    # Set the box (OS) for the Virtual machine, we use Ubuntu
     dev.vm.box = "geerlingguy/ubuntu2004" 
     
     dev.vm.memory = "2048"
