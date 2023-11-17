@@ -1,9 +1,10 @@
-- hosts: vagrant
+- hosts: all
+  become: yes
   tasks:
-    - name: Include default variables.
-      include_vars: "main.yaml"
-
     - name: Include OS-specific variables.
-      include_vars: "{{ ansible_os_family }}.yaml"
+      include_vars: "vars/{{ ansible_os_family }}.yml"
+
+    - name: Include default variables.
+      include_vars: "defaults/main.yml"
 
     - import_tasks: "{{ playbook_dir }}/tasks/main.yml"

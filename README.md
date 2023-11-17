@@ -9,6 +9,21 @@ Requirements
 ------------
 On RedHat-based distributions, this role might requires the EPEL repository.
 
+molecule ~> 5.0
+[updated molucule version](https://dailystuff.nl/blog/2023/switch-to-molecule-plugins)
+
+pip3 install flake8
+pip3 install yamllint
+pip3 install ansible
+pip3 install ansible-lint
+pip3 install -molecule
+pip3 install ansible docker
+pip3 install ansible openshift
+pip3 install ansible python-vagrant
+pip3 install ansible netaddr
+pip3 install ansible molecule-docker
+pip3 install ansible molecule-podman
+pip3 install ansible molecule-vagrant
 
 Role Variables
 --------------
@@ -32,15 +47,16 @@ Example Playbook
 ## Test Playbook
  This playbook can be tested with ansible molecule and/or hashicorp vagrant with the Vagrantfile in the root of the repo.
 
-  Run Molecule
+  Run Molecule test with vagrant
 ```
-  $ molecule init scenario role --driver-name=podman
+  $ molecule init scenario role --driver-name=vagrant
   $ molecule create
 
 ```
-  Run Vagrant
+  Run isolated Vagrant test
 ```
-  $ vagrant up --provision
+ $ cd tests
+ $ vagrant up --provision
 ```
 
 License
@@ -51,6 +67,7 @@ BSD
 
 ---
 ## RESOURCES
+[Ansible testing with Vagrant](https://blog.meralus.com/Ansible-testing-with-Vagrant/)
 [Cache vs Session store ](https://redislabs.com/blog/cache-vs-session-store/)
 
 
