@@ -1,9 +1,0 @@
----
-- name: Restart Redis
-  systemd:
-    name: redis
-    state: restarted
-  become: true
-
-- debug:
-    msg: "Restart redis server to resolve the overcommit and transparent huge page warnings"

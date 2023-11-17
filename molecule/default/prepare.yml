@@ -1,8 +1,0 @@
----
-# Both prepare.yml and playbook.yaml are ansible playbooks,
-# so it is up to you where you place the hosts: parameter
-# Try to use whatever host or group you want instead of all.
-- name: "Prepare Tests"
-  hosts: molecule
-  tasks:
-    - import_tasks: "../../tasks/main.yml"
