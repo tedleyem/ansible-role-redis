@@ -1,8 +1,51 @@
 ---
-- import_tasks: "1.setup_requirements.yml"
-- import_tasks: "2.install.yml"
-- import_tasks: "3.copy.yml"
-- import_tasks: "4.selinux.yml"
-- import_tasks: "5.firewall.yml"
-- import_tasks: "6.systemd.yml"
-- import_tasks: "7.start.yml"
+- name: Define redis_package.
+  set_fact:
+    redis_package: "{{ redis_package }}"
+  when: redis_package is not defined
+
+- name: check for systemd
+  stat:
+    path: /etc/systemd
+  register: systemd_check
+
+- name: check if firewalld exists
+  stat:
+    path: /etc/sysconfig/firewalld
+  register: firewall_rules
+
+- name: Create Redis dir's
+  file:
+   path: "{{ redis_conf_dir }}"
+   state: directory
+   mode: 0755
+
+# Setup/install tasks.
+- include_tasks: install-RedHat.yml
+  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Fedora'
+
+- include_tasks: install-Debian.yml
+  when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'
+
+- include_tasks: install-ArchLinux.yml
+  when: ansible_os_family == 'ArchLinux'
+
+ #COPY MASTER CONF
+- name: Copy Redis template
+  template:
+    src: "redis-conf.j2"
+    dest: "/etc/redis/redis.conf"
+    mode: 0644
+
+- include_tasks: "firewall.yml"
+  when: firewall_rules.stat.exists
+
+- name: Ensure Redis is is started on runtime
+  systemd:
+    name: redis
+    enabled: yes
+
+- name: Start Redis
+  systemd:
+    name: redis
+    state: started

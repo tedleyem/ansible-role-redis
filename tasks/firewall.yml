@@ -1,0 +1,44 @@
+---
+- name: Add TCP PORT {{ redis_port }}
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    jump: ACCEPT
+    destination_port: "{{ redis_port }}"
+  when: "firewall_rules.stat.exists == false"
+
+- name: Add TCP PORT {{ sentinel_port }}
+  iptables:
+    chain: INPUT
+    protocol: tcp
+    jump: ACCEPT
+    destination_port: "{{ sentinel_port }}"
+  when: "firewall_rules.stat.exists == false"
+
+- name: ADD FIREWALLD TCP PORT {{ redis_port }}
+  firewalld:
+   port: "{{ redis_port }}/tcp"
+   zone: public
+   permanent: true
+   state: enabled
+  when: "firewall_rules.stat.exists == true"
+
+- name: ADD FIREWALLD TCP PORT {{ sentinel_port }}
+  firewalld:
+   port: "{{ sentinel_port }}/tcp"
+   zone: public
+   permanent: true
+   state: enabled
+  when: "firewall_rules.stat.exists == true"
+
+- name: RELOAD FIREWALLD
+  systemd:
+    name: firewalld
+    state: reloaded
+  when: "firewall_rules.stat.exists == true"
+
+- name: RESTART IPTABLES
+  service:
+    name: iptables
+    state: restarted
+  when: "firewall_rules.stat.exists == false"

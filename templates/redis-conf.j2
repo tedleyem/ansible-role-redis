@@ -1,0 +1,135 @@
+# {{ ansible_managed }}
+bind {{ redis_bind_loop }} {{ ansible_default_ipv4.address }}
+port {{ redis_port }}
+tcp-backlog {{ tcp_backlog }}
+tcp-keepalive {{ tcp_keepalive }}
+{% if daemonize %}
+daemonize yes
+{% endif %}
+{% if supervised  %}
+supervised systemd
+{% endif %}
+tcp-backlog 511
+{% if protected_mode %}
+protected-mode yes
+{% endif %}
+pidfile /var/run/redis/{{ redis_daemon }}.pid
+{% if redis_unixsocket %}
+unixsocket {{ redis_unixsocket }}
+{% endif %}
+loglevel {{ redis_loglevel }}
+logfile {{ redis_logfile }}
+
+timeout {{ redis_timeout }}
+databases {{ redis_databases }}
+rdbcompression {{ redis_rdbcompression }}
+dbfilename {{ redis_dbfilename }}
+dir {{ redis_dbdir }}
+{% if redis_maxmemory %}
+maxmemory {{ redis_maxmemory }}
+maxmemory-samples {{ redis_maxmemory_samples }}
+{% endif %}
+
+# Cache vs Session store options
+{% if redis_cache == 1 %}
+# Redis Cache Only Options
+maxmemory-policy {{ cache_maxmemory_policy }}
+{% endif %}
+{% if redis_session == 1 %}
+# Redis Session Store Options
+{% for save in redis_save %}
+save {{ save }}
+appendfsync always
+appendfsync everysec
+{% endfor %}
+maxmemory-policy {{ session_maxmemory_policy }}
+{% endif %}
+# END Cache vs Session store options
+{% if appendfsync_no %}
+appendfsync {{ appendfsync_no }}
+{% endif %}
+{% if appendfsync_always %}
+appendfsync {{ appendfsync_always }}
+{% endif %}
+{% if appendfsync_everysec %}
+appendfsync {{ appendfsync_everysec }}
+{% endif %}
+{% if no_appendfsync_on_rewrite == 'yes' %}
+no-appendfsync-on-rewrite yes
+{% else %}
+no-appendfsync-on-rewrite no
+{% endif %}
+# Hardening Redis Settings
+{% if redis_master_auth %}
+masterauth "{{ redis_master_auth }}"
+{% endif %}
+{% if redis_requirepass %}
+requirepass "{{ redis_requirepass }}"
+{% endif %}
+# End Hardening Redis Settings
+{% for include in redis_includes %}
+include {{ include }}
+{% endfor %}
+{% for redis_disabled_command in redis_disabled_commands %}
+rename-command {{ redis_disabled_command }} ""
+{% endfor %}
+{% if slave_serve_stale_data %}
+replica-serve-stale-data yes
+{% endif %}
+{% if repl_read_only %}
+replica-read-only yes
+{% endif %}
+{% if repl_diskless_sync %}
+repl-diskless-sync yes
+{% endif %}
+repl-diskless-sync-delay {{repl_diskless_sync_delay}}
+{% if repl_disable_tcp_nodelay %}
+repl-disable-tcp-nodelay no
+{% endif %}
+replica-priority {{repl_priority}}
+{% if lazyfree_lazy_eviction %}
+lazyfree-lazy-eviction no
+{% endif %}
+{% if lazyfree_lazy_expire %}
+lazyfree-lazy-expire no
+{% endif %}
+{% if lazyfree_lazy_server_del %}
+lazyfree-lazy-server-del no
+{% endif %}
+{% if repl_lazy_flush %}
+replica-lazy-flush no
+{% endif %}
+auto-aof-rewrite-percentage {{auto_aof_rewrite_percentage}}
+auto-aof-rewrite-min-size {{auto_aof_rewrite_min_size}}
+{% if aof_load_truncated %}
+aof-load-truncated yes
+{% endif %}
+{% if aof_use_rdb_preamble %}
+aof-use-rdb-preamble no
+{% endif %}
+lua-time-limit {{lua_time_limit}}
+slowlog-log-slower-than {{slowlog_log_slower_than}}
+slowlog-max-len {{slowlog_max_len}}
+latency-monitor-threshold {{latency_monitor_threshold}}
+{% if notify_keyspace_events %}
+notify-keyspace-events ""
+{% endif %}
+hash-max-ziplist-entries {{hash_max_ziplist_entries}}
+hash-max-ziplist-value {{hash_max_ziplist_value}}
+list-max-ziplist-size {{list_max_ziplist_size}}
+list-compress-depth {{list_compress_depth}}
+set-max-intset-entries {{set_max_intset_entries}}
+zset-max-ziplist-entries {{zset_max_ziplist_entries}}
+zset-max-ziplist-value {{zset_max_ziplist_value}}
+hll-sparse-max-bytes {{ hll_sparse_max_bytes }}
+
+{% if activerehashing %}
+activerehashing yes
+{% endif %}
+client-output-buffer-limit {{ buffer_limit1 }}
+client-output-buffer-limit {{ buffer_limit2 }}
+client-output-buffer-limit {{ buffer_limit3 }}
+hz {{ hz }}
+{% if aof_rewrite_incremental_fsync %}
+aof-rewrite-incremental-fsync yes
+{% endif %}

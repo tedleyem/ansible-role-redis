@@ -1,33 +1,41 @@
 dependency:
   name: galaxy
-  options:
-    requirements-file: collections.yml
 
 driver:
-  name: podman
+  name: vagrant
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .
+
 platforms:
   - name: fedora37
     image: docker.io/pycontribs/fedora:37
+    privileged: true
     pre_build_image: true
+    tmpfs:
+      - /run
+      - /tmp
   - name: debian-12
     image: docker.io/pycontribs/debian:12.2
+    privileged: true
     pre_build_image: true
+    tmpfs:
+      - /run
+      - /tmp
   - name: archlinux
     image: docker.io/pycontribs/archlinux:base-devel-20231112.0.191179
+    privileged: true
     pre_build_image: true
+    tmpfs:
+      - /run
+      - /tmp
   - name: rocky8
     image: docker.io/pycontribs/rockylinux:8-minimal
-    #tmpfs:
-    #  - /run #mounting a temp filesystem for systemd testing
-    #  - /tmp
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro #cgroup volume for testing
-    capabilities:
-      - SYS_ADMIN #enabled so that test containers can run systemd
-    command: "/usr/sbin/init"
+    privileged: true
+    privileged: true
     pre_build_image: true
-  - name: rhel8
-    image: registry.access.redhat.com/ubi8/ubi-init
+    command: "/usr/sbin/init"
     tmpfs:
       - /run #mounting a temp filesystem for systemd testing
       - /tmp
@@ -35,30 +43,46 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro #cgroup volume for testing
     capabilities:
       - SYS_ADMIN #enabled so that test containers can run systemd
-    command: "/usr/sbin/init"
+  - name: rhel8
+    image: registry.access.redhat.com/ubi8/ubi-init
+    privileged: true
     pre_build_image: true
+    command: "/usr/sbin/init"
+    tmpfs:
+      - /run
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro #cgroup volume for testing
+    capabilities:
+      - SYS_ADMIN #enabled so that test containers can run systemd
   - name: ubuntu
     image: geerlingguy/docker-ubuntu2004-ansible
-    #tmpfs:
-    #  - /run
-    #  - /tmp
+    privileged: true
+    pre_build_image: true
+    command: "/lib/systemd/systemd"
+    tmpfs:
+      - /run
+      - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
-    command: "/lib/systemd/systemd"
-    pre_build_image: true
+
 provisioner:
   name: ansible
+  lint:
+    name: ansible-lint
   config_options:
     defaults:
       interpreter_python: auto_silent #prevents warning vomit
       callback_whitelist: profile_tasks, timer, yaml # spits out good info
     ssh_connection:
       pipelining: false #set to false because it doesnt work with podman
-verifier:
-  name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
+    remote_tmp: /tmp/.ansible
+    playbooks:
+      create: create.yml
+      converge: converge.yml
+      destroy: destroy.yml
+    inventory:
+      links:
+        group_vars: ../test/inventory.yml

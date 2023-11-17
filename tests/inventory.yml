@@ -1,5 +1,5 @@
 # Used by Vagrant
-vagrant:
+sandbox:
   hosts:
     fedora:
       http_port: 6379
