@@ -17,7 +17,6 @@
    mode: 0755
   with_items:
     - "{{ redis_logfile }}"
-    - "{{ sentinel_logfile }}"
   become: true
 
 - name: Overcommit_memory warnings Fix
@@ -42,17 +41,11 @@
     remote_src: yes
   become: true
 
-- name: Run 'make install' target as root
+- name: Run 'make install' target
   make:
     chdir: "{{ redis_dir }}/src/"
     target: install
-  become: true
-
-- name: Run 'make install' target as root
-  make:
-    chdir: "{{ redis_dir }}/src/"
-    target: install
-  become: true
+#  become: true
 
 - name: copy redis-server to /usr/local/bin/
   copy:
