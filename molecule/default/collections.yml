@@ -1,0 +1,4 @@
+collections:
+  - name: https://github.com/tedleyem/ansible-role-redis.git
+    type: git 
+    version: main

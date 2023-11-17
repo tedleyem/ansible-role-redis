@@ -1,18 +1,27 @@
----
-dependencies: []
-
 galaxy_info:
-  role_name: redis-sentinel-ha
-  author: tmeralus
-  description: Redis Memory Caching HA cluster setup
-  issue_tracker_url: https://github.com/tmeralus/ansible-role-redis-sentinel-HA/issues
-  company: ""
-  license: "license (GPLv3, )"
-  min_ansible_version: 2.5.4
+  role_name: redis
+  author: tedleyem
+  description: Redis Memory caching setup
+  license: license (GPL-2.0-or-later, MIT, etc)
+  issue_tracker_url: https://github.com/tedleyem/ansible-role-redis/issues
+  min_ansible_version: "2.10"
   platforms:
-    - name: EL
+    - name: Fedora
       versions:
-        - all
+        - 37
+    - name: Debian
+      versions:
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - 20.04
+    - name: ArchLinux
+      versions:
+        - base-devel-20231112.0.191179
   galaxy_tags:
+    - database
+    - development
+    - web
     - redis
-    - caching
+    - cache
+    - performance

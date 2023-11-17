@@ -4,13 +4,6 @@
     name: redis
     state: restarted
   become: true
-  when: redis_role != "sentinel"
-
-- name: Restart Redis Sentinel
-  systemd:
-    name: redis-sentinel
-    state: restarted
-  become: true
 
 - debug:
-    msg: "Restart All servers to resolve the overcommit and transparent huge page warnings"
+    msg: "Restart redis server to resolve the overcommit and transparent huge page warnings"

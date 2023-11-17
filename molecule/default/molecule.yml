@@ -1,0 +1,64 @@
+dependency:
+  name: galaxy
+  options:
+    requirements-file: collections.yml
+
+driver:
+  name: podman
+platforms:
+  - name: fedora37
+    image: docker.io/pycontribs/fedora:37
+    pre_build_image: true
+  - name: debian-12
+    image: docker.io/pycontribs/debian:12.2
+    pre_build_image: true
+  - name: archlinux
+    image: docker.io/pycontribs/archlinux:base-devel-20231112.0.191179
+    pre_build_image: true
+  - name: rocky8
+    image: docker.io/pycontribs/rockylinux:8-minimal
+    #tmpfs:
+    #  - /run #mounting a temp filesystem for systemd testing
+    #  - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro #cgroup volume for testing
+    capabilities:
+      - SYS_ADMIN #enabled so that test containers can run systemd
+    command: "/usr/sbin/init"
+    pre_build_image: true
+  - name: rhel8
+    image: registry.access.redhat.com/ubi8/ubi-init
+    tmpfs:
+      - /run #mounting a temp filesystem for systemd testing
+      - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro #cgroup volume for testing
+    capabilities:
+      - SYS_ADMIN #enabled so that test containers can run systemd
+    command: "/usr/sbin/init"
+    pre_build_image: true
+  - name: ubuntu
+    image: geerlingguy/docker-ubuntu2004-ansible
+    #tmpfs:
+    #  - /run
+    #  - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    capabilities:
+      - SYS_ADMIN
+    command: "/lib/systemd/systemd"
+    pre_build_image: true
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      interpreter_python: auto_silent #prevents warning vomit
+      callback_whitelist: profile_tasks, timer, yaml # spits out good info
+    ssh_connection:
+      pipelining: false #set to false because it doesnt work with podman
+verifier:
+  name: ansible
+lint: |
+  set -e
+  yamllint .
+  ansible-lint .

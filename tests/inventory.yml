@@ -1,0 +1,21 @@
+# Used by Vagrant
+vagrant:
+  hosts:
+    fedora:
+      http_port: 6379
+      ansible_connection: local
+    debian:
+      http_port: 6379
+      ansible_connection: local
+    ubuntu:
+      http_port: 6379
+      ansible_connection: local
+    arch:
+      http_port: 6379
+      ansible_connection: local
+    rhel8:
+      http_port: 6379
+      ansible_connection: local
+    rocky8:
+      http_port: 6379
+      ansible_connection: local

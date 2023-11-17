@@ -1,39 +1,60 @@
-# Ansible playbook to install redis
-Redis-Sentinel HA Setup
+Redis
+=========
 
-This role is designed to setup a Parent/Child High Availability
-cluster with 3 sentinel instances running for a fault tolerant Redis Environment.
+This is an Ansible playbook to install redis
+Redis Setup 5.0.5
 
-## Requirements
 
-## Cache vs Session store
-LINK: https://redislabs.com/blog/cache-vs-session-store/
+Requirements
+------------
+On RedHat-based distributions, this role might requires the EPEL repository.
 
-This playbook also requires specific host variables
- Example:
- [redis-nodes]
- dolly01 redis_role=master
- dolly02 redis_role=slave
- dolly03 redis_role=sentinel
 
-## Role Variables
-### all variables can be found under group_vars/all.yml file
-- redis_version: "5.0.5"
-- redis_url: "http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz"
-- redis_dir: "/opt/redis-{{ redis_version }}"
-- install_dir: "/opt/"
-- redis_cache: Adding any vaule will setup redis for LRU cache only cluster
-- redis_session: # Adding any value witll setup redis for session store cluster
+Role Variables
+--------------
+There is a large list of configurable variables for setting up redis tha can be found in
+vars.yml
 
-## Dependencies
- tcl and cmake tools are required to install redis from sources.
+The role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+
+Dependencies
+------------
+None
+
+Example Playbook
+----------------
+```
+    - hosts: all
+      roles:
+         - { role: tedleyem.redis }
+```
 
 ## Test Playbook
- ansible-playbook -i tests/inventory roles/redis-sentinel-HA/main.yml
+ This playbook can be tested with ansible molecule and/or hashicorp vagrant with the Vagrantfile in the root of the repo.
+
+  Run Molecule
+```
+  $ molecule init scenario role --driver-name=podman
+  $ molecule create
+
+```
+  Run Vagrant
+```
+  $ vagrant up --provision
+```
 
 License
-GNU GPLv3
+-------
+
+BSD
+
+
+---
+## RESOURCES
+[Cache vs Session store ](https://redislabs.com/blog/cache-vs-session-store/)
+
 
 
 Author Information
- Twitter: @TechGameTeddy
+------------------
+This role was created in 2018 and recently updated in 2023

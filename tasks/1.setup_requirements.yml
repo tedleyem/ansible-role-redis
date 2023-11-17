@@ -1,7 +1,7 @@
 ---
 - name: Install dependancies
   package:
-    name: [cmake, tcl]
+    name: "{{ packages }}"
     state: present
   become: true
 
@@ -18,16 +18,3 @@
   stat:
     path: /etc/sysconfig/firewalld
   register: firewall_rules
-  
-- name: Get list of Redis Masters
-  vars:
-    data_yaml: |
-      #!jinja2: lstrip_blocks: True
-      {% for host in groups['redis_nodes'] %}
-        {% if hostvars[host]['redis_role'] == 'master' %}
-        - {{ hostvars[host]['ansible_default_ipv4']['address'] }}
-        {% endif %}
-      {% endfor %}
-  set_fact:
-    # Its ugly but this eliminates white spaces and new lines to format the given value into the redis conf files correctly
-    redis_masters: "{{ data_yaml | from_yaml | to_nice_yaml | regex_replace('-','') | regex_replace('\n','') | regex_replace('^\\/', '') }}"

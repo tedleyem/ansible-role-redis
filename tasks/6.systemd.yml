@@ -5,14 +5,6 @@
     dest: "/etc/systemd/system/redis.service"
     mode: 0644
   become: true
-  when: redis_role != "sentinel"
-
-- name: Setup Redis Sentinel Systemd
-  template:
-    src: systemd-sentinel.j2
-    dest: "/etc/systemd/system/redis-sentinel.service"
-    mode: 0644
-  become: true
 
 - name: Reload systemd
   systemd:
@@ -23,12 +15,5 @@
 - name: Ensure Redis is is started on runtime
   systemd:
     name: redis
-    enabled: yes
-  become: true
-  when: redis_role != "sentinel"
-
-- name: Ensure Redis is is started on runtime
-  systemd:
-    name: redis-sentinel
     enabled: yes
   become: true

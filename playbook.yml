@@ -1,6 +1,9 @@
-- hosts: redis_nodes
-  become: yes
+- hosts: vagrant
   tasks:
+    - name: Include default variables.
+      include_vars: "main.yaml"
+
     - name: Include OS-specific variables.
-      include_vars: "{{ playbook_dir }}/defaults/main.yml"
+      include_vars: "{{ ansible_os_family }}.yaml"
+
     - import_tasks: "{{ playbook_dir }}/tasks/main.yml"
